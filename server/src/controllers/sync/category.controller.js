@@ -1,6 +1,7 @@
 const axios = require('axios');
 const sql = require('mssql');
-const config = require('../../database/config');
+const db = require('../../../database/database');
+
 
 // Function để fetch categories từ ophim1 API
 async function fetchOphimCategories() {
@@ -38,7 +39,7 @@ async function syncCategories(req, res) {
   let pool;
   try {
     // Kết nối database
-    pool = await sql.connect(config);
+    pool = await db.getConnection();
     
     // Fetch categories từ ophim1
     const categories = await fetchOphimCategories();
@@ -71,7 +72,65 @@ async function syncCategories(req, res) {
     }
   }
 }
+// Function để lấy danh sách categories
+async function getCategories(req, res) {
+  try {
+      const result = await db.query(`
+          SELECT CategoryID, Name, Slug, Description 
+          FROM Categories 
+          WHERE IsActive = 1 
+          ORDER BY DisplayOrder, Name
+      `);
+
+      res.json({
+          success: true,
+          data: result.recordset
+      });
+
+  } catch (error) {
+      console.error('Error getting categories:', error);
+      res.status(500).json({
+          success: false,
+          error: error.message || 'Database error'
+      });
+  }
+}
+
+// Function để lấy country theo ID
+async function getCategoriesById(req, res) {
+  let pool;
+  try {
+    pool = await sql.connect(config);
+    const result = await pool.request()
+      .input('CategoryID', sql.Int, req.params.id)
+      .query('SELECT * FROM Countries WHERE CategoryID = @CategoryID');
+    
+    if (result.recordset.length > 0) {
+      res.json({
+        success: true,
+        data: result.recordset[0]
+      });
+    } else {
+      res.status(404).json({
+        success: false,
+        message: 'Country not found'
+      });
+    }
+  } catch (error) {
+    console.error('Error getting category by ID:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  } finally {
+    if (pool) {
+      pool.close();
+    }
+  }
+}
 
 module.exports = {
-  syncCategories
+  syncCategories,
+  getCategories,
+  getCategoriesById
 };

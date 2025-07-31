@@ -5,8 +5,6 @@
   📄 package-lock.json
   📄 package.json
   📁 public/
-    📄 favicon.ico
-  📄 README.md
   📄 server.ts
   📁 src/
     📁 app/
@@ -18,6 +16,32 @@
       📄 app.config.ts
       📄 app.routes.ts
       📁 components/
+        📁 admin/
+          📄 admin.component.css
+          📄 admin.component.html
+          📄 admin.component.spec.ts
+          📄 admin.component.ts
+        📁 auth/
+          📁 login/
+            📄 login.component.css
+            📄 login.component.html
+            📄 login.component.spec.ts
+            📄 login.component.ts
+          📁 register/
+            📄 register.component.css
+            📄 register.component.html
+            📄 register.component.spec.ts
+            📄 register.component.ts
+        📁 error/
+          📄 error.component.css
+          📄 error.component.html
+          📄 error.component.spec.ts
+          📄 error.component.ts
+        📁 favorite-movies/
+          📄 favorite-movies.component.css
+          📄 favorite-movies.component.html
+          📄 favorite-movies.component.spec.ts
+          📄 favorite-movies.component.ts
         📁 footer/
           📄 footer.component.css
           📄 footer.component.html
@@ -98,9 +122,69 @@
           📄 lien-he.component.html
           📄 lien-he.component.spec.ts
           📄 lien-he.component.ts
+        📁 main-search/
+          📁 filter/
+            📄 filter.component.css
+            📄 filter.component.html
+            📄 filter.component.spec.ts
+            📄 filter.component.ts
+          📄 main-search.component.css
+          📄 main-search.component.html
+          📄 main-search.component.spec.ts
+          📄 main-search.component.ts
+          📁 search-result/
+            📄 search-result.component.css
+            📄 search-result.component.html
+            📄 search-result.component.spec.ts
+            📄 search-result.component.ts
+        📁 movie/
+          📁 movie-actions/
+            📄 movie-actions.component.css
+            📄 movie-actions.component.html
+            📄 movie-actions.component.spec.ts
+            📄 movie-actions.component.ts
+          📁 movie-detail/
+            📄 movie-detail.component.css
+            📄 movie-detail.component.html
+            📄 movie-detail.component.spec.ts
+            📄 movie-detail.component.ts
+          📁 movie-episodes/
+            📄 movie-episodes.component.css
+            📄 movie-episodes.component.html
+            📄 movie-episodes.component.spec.ts
+            📄 movie-episodes.component.ts
+          📁 movie-view/
+            📄 movie-view.component.css
+            📄 movie-view.component.html
+            📄 movie-view.component.spec.ts
+            📄 movie-view.component.ts
+          📄 movie.component.css
+          📄 movie.component.html
+          📄 movie.component.spec.ts
+          📄 movie.component.ts
+        📁 view-history/
+          📄 view-history.component.css
+          📄 view-history.component.html
+          📄 view-history.component.spec.ts
+          📄 view-history.component.ts
+        📁 watch-later/
+          📄 watch-later.component.css
+          📄 watch-later.component.html
+          📄 watch-later.component.spec.ts
+          📄 watch-later.component.ts
+      📁 guards/
+        📄 auth.guard.ts
+        📄 non-auth.guard.ts
       📁 services/
+        📄 acc-movie.service.spec.ts
+        📄 acc-movie.service.ts
+        📄 auth.service.spec.ts
+        📄 auth.service.ts
         📄 movie.service.spec.ts
         📄 movie.service.ts
+        📄 view-history.service.spec.ts
+        📄 view-history.service.ts
+      📄 token.interceptor.ts
     📁 assets/
       📁 icon/
         📄 icon_bilibili.png
@@ -179,6 +263,7 @@
           📄 wak_4.jpg
           📄 wak_5.jpg
       📁 logo/
+        📄 favicon.ico
         📄 logo.png
     📄 index.html
     📄 main.server.ts
@@ -189,12 +274,50 @@
   📄 tsconfig.spec.json
 📄 package-lock.json
 📄 package.json
+📄 README.md
 📁 server/
   📁 database/
     📄 config.js
+    📄 connection.js
+    📄 database.js
+    📄 dbInit.js
     📄 db_webphim.sql
     📄 migration.js
   📄 package-lock.json
   📄 package.json
   📁 src/
+    📁 config/
+      📄 jwt.config.js
+    📁 controllers/
+      📁 admin/
+        📄 movie.controller.js
+      📁 auth/
+        📄 auth.controller.js
+      📁 movie/
+        📄 languages.controller.js
+        📄 listMovies.controller.js
+        📄 listMoviesRD.controller.js
+        📄 listMoviesTop.controller.js
+        📄 movieRating.controller.js
+        📄 viewHistory.controller.js
+        📄 watchLater.controller.js
+      📄 movieDetail.controller.js
+      📁 search/
+        📄 filterMovies.controller.js
+        📄 searchMovies.controller.js
+      📁 sync/
+        📄 category.controller.js
+        📄 cleanMovieController.js
+        📄 country.controller.js
+        📄 movie.controller.js
+        📄 parallelMovieSync.js
     📄 index.js
+    📁 middleware/
+      📄 auth.middleware.js
+    📁 routes/
+      📄 action.routes.js
+      📄 auth.routes.js
+      📄 movie.routes.js
+      📄 search.routes.js
+      📄 sync.routes.js
+      📄 viewHistory.routes.js

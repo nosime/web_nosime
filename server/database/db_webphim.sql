@@ -318,3 +318,20 @@ INSERT INTO RolePermissions (RoleID, PermissionID) VALUES
 (4, 2); -- Moderator - Thêm phim
 GO
 
+-- Tạo store procedure để thêm admin với hash password
+CREATE PROCEDURE CreateAdminUser 
+AS
+BEGIN
+    DECLARE @AdminUserID INT;
+    
+    INSERT INTO Users (Username, Email, Password, DisplayName, IsVerified, IsActive)
+    VALUES ('admin', 'admin@nosime.com', '$2a$10$vpXRod9vrfDasnnxVE5uPO9yFmq/wYxwsqi09q03/v4dFSgBauV5G', 'Admin', 1, 1);
+    
+    SET @AdminUserID = SCOPE_IDENTITY();
+    INSERT INTO UserRoles (UserID, RoleID) VALUES (@AdminUserID, 1);
+END
+GO
+
+-- Chạy procedure
+EXEC CreateAdminUser;
+GO

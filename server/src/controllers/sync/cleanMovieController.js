@@ -1,7 +1,7 @@
 // cleanMovieController.js
 
 const sql = require('mssql');
-const config = require('../../database/config');
+const config = require('../../../database/config');
 
 async function cleanAllMovieData(req, res) {
   let pool;

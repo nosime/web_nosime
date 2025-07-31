@@ -1,6 +1,6 @@
 const axios = require('axios');
 const sql = require('mssql');
-const config = require('../../database/config');
+const db = require('../../../database/database');
 
 // Function để fetch countries từ ophim1 API 
 async function fetchOphimCountries() {
@@ -37,7 +37,7 @@ async function syncCountries(req, res) {
   let pool;
   try {
     // Kết nối database
-    pool = await sql.connect(config);
+    pool = await db.getConnection();
     
     // Fetch countries từ ophim1
     const countries = await fetchOphimCountries();
@@ -73,34 +73,32 @@ async function syncCountries(req, res) {
 
 // Function để lấy danh sách countries
 async function getCountries(req, res) {
-  let pool;
   try {
-    pool = await sql.connect(config);
-    const result = await pool.request()
-      .query('SELECT * FROM Countries ORDER BY Name');
-    
-    res.json({
-      success: true,
-      data: result.recordset
-    });
+      const result = await db.query(`
+          SELECT CountryID, Name, Slug, Code 
+          FROM Countries 
+          WHERE IsActive = 1 
+          ORDER BY Name
+      `);
+
+      res.json({
+          success: true,
+          data: result.recordset
+      });
+
   } catch (error) {
-    console.error('Error getting countries:', error);
-    res.status(500).json({
-      success: false,
-      error: error.message
-    });
-  } finally {
-    if (pool) {
-      pool.close();
-    }
+      console.error('Error getting countries:', error);
+      res.status(500).json({
+          success: false,
+          error: error.message || 'Database error'
+      });
   }
 }
-
 // Function để lấy country theo ID
 async function getCountryById(req, res) {
   let pool;
   try {
-    pool = await sql.connect(config);
+    pool = await db.getConnection();
     const result = await pool.request()
       .input('CountryID', sql.Int, req.params.id)
       .query('SELECT * FROM Countries WHERE CountryID = @CountryID');
