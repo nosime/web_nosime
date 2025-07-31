@@ -1,0 +1,269 @@
+.top-movies {
+  padding-top: 20px;
+  background: #141414;
+  position: relative;
+
+  .title {
+    color: #fff;
+    font-size: 30px;
+
+    padding: 0 3% 0 3%;
+  }
+}
+
+.carousel-container {
+  position: relative;
+  padding: 0;
+  margin: 0 32px;
+  overflow: hidden;
+}
+
+
+.box {
+  position: relative;
+  padding: 5px;
+  width: fit-content;
+  min-width: 8%;
+  left: 45px;
+
+  .rank-number {
+    position: absolute;
+    left: -40px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 180px;
+    font-weight: 900;
+    color: rgba(255,255,255,0.3);
+    z-index: 0;
+    width: auto;
+    text-align: center;
+
+    &.single-digit {
+      left: -40px;
+    }
+
+    &.double-digits {
+      left: -90px;
+      letter-spacing: -30px;
+      font-size: 160px;
+    }
+  }
+
+  a {
+    text-decoration: none;
+    display: block;
+  }
+}
+
+/* Màn >=24 inch (thường là 1920px trở lên) */
+@media screen and (min-width: 1920px) {
+  .box {
+    left: 60px;
+  }
+}
+
+/* Màn 15.6 inch và nhỏ hơn */
+@media screen and (max-width: 1919px) {
+  .box {
+    left: 45px;
+  }
+}
+
+/* Các media queries khác giữ nguyên */
+@media screen and (max-width: 1200px) {
+  .box .rank-number {
+    &.single-digit {
+      left: -35px;
+      font-size: 160px;
+    }
+
+    &.double-digits {
+      left: -80px;
+      font-size: 140px;
+      letter-spacing: -25px;
+    }
+  }
+
+}
+
+@media screen and (max-width: 992px) {
+  .box {
+    left: 45px;
+  }
+
+  .box .rank-number {
+    &.single-digit {
+      left: -30px;
+      font-size: 140px;
+    }
+
+    &.double-digits {
+      left: -70px;
+      font-size: 120px;
+      letter-spacing: -20px;
+    }
+  }
+  .nav-btn{
+    display: none;
+  }
+}
+
+.card_film {
+  width: 180px;
+  height: 253px;
+  border-radius: 20px;
+  transition: all .3s;
+  position: relative;
+  z-index: 1;
+  left: 10px;
+
+  &.film0 {
+    background-image: linear-gradient(163deg, #00ff75 0%, #3700ff 100%);
+  }
+
+  &.film1 {
+    background-image: linear-gradient(163deg, #f7ba2b, #de6698 50%, #ea5358);
+  }
+
+  &.film2 {
+    background-image: linear-gradient(163deg, #00DDEB, #5B42F3 50%, #AF40FF);
+  }
+}
+
+.card_film_in {
+  width: 180px;
+  height: 253px;
+  background-color: #1a1a1a;
+  border-radius: 19px;
+  transition: all .2s;
+  position: relative;
+  overflow: hidden;
+
+  &:hover {
+    transform: scale(0.975);
+    border-radius: 20px;
+
+    .info_card {
+      opacity: 1;
+      background: rgba(0, 0, 0, 0.8);
+
+      #info_film {
+        transform: translateY(-60px);
+        opacity: 1;
+      }
+
+      #info_y {
+        transform: translateY(-30px);
+        opacity: 1;
+      }
+    }
+  }
+}
+
+#img_film {
+  width: 180px;
+  height: 253px;
+  position: absolute;
+  transform: scale(0.98);
+  border-radius: 20px;
+  object-fit: cover;
+}
+
+
+.info_card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: all 0.3s ease;
+  border-radius: 19px;
+
+  span {
+    color: white;
+    text-align: center;
+    padding: 0 10px;
+    transition: all 0.3s ease;
+    opacity: 0;
+  }
+
+  #info_film {
+    font-size: 14px;
+    transform: translateY(20px);
+  }
+
+  #info_y {
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 8px;
+    transform: translateY(20px);
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  }
+}
+
+.card_film:hover {
+  box-shadow: 0px 0px 30px 1px rgba(0, 255, 117, 0.30);
+}
+
+.carousel-wrapper {
+  position: relative;
+  padding: 0 32px;
+
+  .nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 35px;
+    height: 94%;
+    background: rgba(0, 0, 0, 0.3);
+    color: rgba(255,255,255,0.7);
+    font-size: 32px;
+    cursor: pointer;
+    z-index: 100;
+    transition: all 0.3s ease;
+    opacity: 0.1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+
+    &:hover {
+      color: rgb(154, 35, 180);
+      width: 40px;
+      opacity: 1;
+    }
+
+    &.prev-btn {
+      left: 0;
+      border-top-right-radius: 50px;
+      border-bottom-right-radius: 50px;
+    }
+
+    &.next-btn {
+      right: 0;
+      border-top-left-radius: 50px;
+      border-bottom-left-radius: 50px;
+    }
+  }
+
+  &:hover .nav-btn {
+    opacity: 1;
+  }
+}
+
+
+::ng-deep {
+  .owl-nav {
+    display: none !important;
+  }
+
+  .owl-stage-outer {
+    overflow: visible;
+  }
+}

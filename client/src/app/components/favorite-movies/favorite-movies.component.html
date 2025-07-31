@@ -1,0 +1,48 @@
+<div class="movie-section">
+  <div class="header">
+    <div class="title-group">
+      <h2 class="title">
+        Phim Yêu Thích - ({{totalItems}} phim)
+      </h2>
+    </div>
+  </div>
+
+  <div class="search-results">
+    <div *ngIf="loading" class="loading">Đang tải...</div>
+    <div *ngIf="error" class="error">{{error}}</div>
+
+    <div class="movies-container" *ngIf="!loading && !error">
+      <div class="movies-row">
+        <div class="movie-box" *ngFor="let movie of movies">
+          <a [routerLink]="['/phim', movie.Slug]">
+            <div class="card_film" [ngClass]="'film' + (movie.MovieID % 3)">
+              <div class="card_film_in">
+                <img
+                  loading="lazy"
+                  [src]="movie.ThumbUrl"
+                  [alt]="movie.Name"
+                  id="img_film"
+                  (error)="handleImageError($event)"
+                />
+                <div class="info_card">
+                  <span id="info_film">{{movie.Year}} - {{movie.Quality}}</span>
+                  <span id="info_y">{{movie.Name}}</span>
+                </div>
+              </div>
+            </div>
+          </a>
+          <div class="controls" *ngIf="!loading">
+
+            <button class="btn-remove" title="Xóa khỏi danh sách" (click)="removeFavorite(movie.MovieID)">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="!loading && !error && movies.length === 0" class="no-results">
+      Bạn chưa có phim yêu thích nào
+    </div>
+  </div>
+</div>

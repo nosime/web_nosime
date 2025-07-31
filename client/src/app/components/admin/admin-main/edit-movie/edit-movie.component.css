@@ -1,0 +1,132 @@
+/* add-movie.component.css */
+
+.card {
+  background: #1a1a1a;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  color: white;
+}
+
+.card-header {
+  background: rgba(0,0,0,0.2);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.form-control, .form-select {
+  background: #2d2d2d;
+  border: 1px solid rgba(255,255,255,0.1);
+  color: white;
+}
+
+.form-control:focus, .form-select:focus {
+  background: #333;
+  border-color: #a970ff;
+  box-shadow: 0 0 0 0.2rem rgba(169,112,255,.25);
+  color: white;
+}
+
+.categories-container, .countries-container {
+  position: relative;
+}
+
+select[multiple] {
+  height: auto;
+  min-height: 120px;
+}
+
+.img-preview {
+  max-width: 150px;
+  height: auto;
+  border-radius: 4px;
+  margin-top: 8px;
+}
+
+.btn-primary {
+  background: #a970ff;
+  border: none;
+}
+
+.btn-primary:hover {
+  background: #8c46f4;
+}
+
+.btn-secondary {
+  background: #4d4d4d;
+  border: none;
+}
+
+.btn-secondary:hover {
+  background: #666;
+}
+
+.text-danger {
+  color: #ff4444 !important;
+}
+
+.invalid-feedback {
+  color: #ff4444;
+}
+.form-select {
+  background: #2d2d2d;
+  border: 1px solid rgba(255,255,255,0.1);
+  color: white;
+}
+
+.form-select:focus {
+  background: #333;
+  border-color: #a970ff;
+  box-shadow: 0 0 0 0.2rem rgba(169,112,255,.25);
+  color: white;
+}
+
+.form-select option {
+  background: #2d2d2d;
+  color: white;
+}
+.checkbox-group {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.form-check {
+  margin-bottom: 8px;
+}
+
+.form-check-input:checked {
+  background-color: #8c46f4;
+  border-color: #8c46f4;
+}
+
+.form-check-label {
+  color: #333;
+  cursor: pointer;
+}
+
+/* Style cho scrollbar */
+.checkbox-group::-webkit-scrollbar {
+  width: 6px;
+}
+
+.checkbox-group::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.checkbox-group::-webkit-scrollbar-thumb {
+  background: #8c46f4;
+  border-radius: 3px;
+}
+
+.checkbox-group::-webkit-scrollbar-thumb:hover {
+  background: #6e32db;
+}
+
+.form-label
+{
+  color: white;
+}

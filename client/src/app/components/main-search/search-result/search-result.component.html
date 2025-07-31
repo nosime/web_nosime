@@ -1,0 +1,95 @@
+<div class="movie-section">
+
+  <div class="header">
+    <div class="title-group">
+      <!-- Trường hợp tìm kiếm -->
+      <h2 *ngIf="searchQuery" class="title">
+        Kết quả tìm kiếm "{{searchQuery}}" - ({{totalItems}} phim)
+      </h2>
+      <!-- Trường hợp xem theo route (phim mới, phim bộ, phim lẻ) -->
+      <h2 *ngIf="!searchQuery && title" class="title">
+        {{title}} - ({{totalItems}} phim)
+      </h2>
+    </div>
+  </div>
+  <app-filter
+  [initialType]="type"
+  (filterChange)="onFilterChange($event)">
+</app-filter>
+  <div class="search-results">
+    <div *ngIf="loading" class="loading">Đang tìm kiếm...</div>
+    <div *ngIf="error" class="error">{{error}}</div>
+
+    <div class="movies-container" *ngIf="!loading && !error">
+       <!-- Pagination -->
+       <div class="pagination" *ngIf="totalPages > 1">
+        <button
+          class="page-btn"
+          [class.disabled]="currentPage === 1"
+          (click)="goToPage(currentPage - 1)">
+          ‹
+        </button>
+
+        <button
+          *ngFor="let page of pages"
+          class="page-btn"
+          [class.active]="page === currentPage"
+          (click)="goToPage(page)">
+          {{page}}
+        </button>
+
+        <button
+          class="page-btn"
+          [class.disabled]="currentPage === totalPages"
+          (click)="goToPage(currentPage + 1)">
+          ›
+        </button>
+      </div>
+      <div class="movies-row">
+        <div class="movie-box" *ngFor="let movie of movies_search">
+          <a [routerLink]="['/phim', movie.Slug]">
+            <div class="card_film" [ngClass]="'film' + (movie.MovieID % 3)">
+              <div class="card_film_in">
+                <img loading="lazy" [src]="movie.ThumbUrl" [alt]="movie.Name" id="img_film"/>
+                <div class="info_card">
+                  <span id="info_film">{{movie.Year}} - {{movie.Quality}}</span>
+                  <span id="info_y">{{movie.Name}}</span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Pagination -->
+      <div class="pagination" *ngIf="totalPages > 1">
+        <button
+          class="page-btn"
+          [class.disabled]="currentPage === 1"
+          (click)="goToPage(currentPage - 1)">
+          ‹
+        </button>
+
+        <button
+          *ngFor="let page of pages"
+          class="page-btn"
+          [class.active]="page === currentPage"
+          (click)="goToPage(page)">
+          {{page}}
+        </button>
+
+        <button
+          class="page-btn"
+          [class.disabled]="currentPage === totalPages"
+          (click)="goToPage(currentPage + 1)">
+          ›
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="!loading && !error && movies_search.length === 0" class="no-results">
+      Không tìm thấy kết quả phù hợp
+    </div>
+  </div>
+
+</div>

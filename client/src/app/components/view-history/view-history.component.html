@@ -1,0 +1,65 @@
+<div class="history-container">
+  <h2>Lịch sử xem phim</h2>
+
+  <div class="table-responsive">
+    <table class="history-table">
+      <thead>
+        <tr>
+          <th>Phim</th>
+          <th>Tập phim</th>
+          <th>Server</th>
+          <th>Thời gian xem</th>
+          <th>Thao tác</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let item of historyItems">
+          <!-- Desktop View -->
+          <td class="movie-cell">
+            <img [src]="item.movie.thumbUrl" alt="thumbnail" class="movie-thumb">
+            <div class="movie-info">
+              <a [routerLink]="['/phim', item.movie.slug]" class="movie-name">
+                {{item.movie.name}}
+              </a>
+              <!-- Mobile Only Info -->
+              <div class="mobile-info">
+                <div class="info-line">
+                  <span class="info-label">Tập:</span>
+                  <span>{{item.episode.episodeNumber}}: {{item.episode.fileName}}</span>
+                </div>
+                <div class="info-line">
+                  <span class="info-label">Server:</span>
+                  <span>{{item.server.name}}</span>
+                </div>
+                <div class="info-line">
+                  <span class="info-label">Thời gian:</span>
+                  <span>{{item.viewDate | date:'dd/MM/yyyy HH:mm'}}</span>
+                </div>
+              </div>
+            </div>
+          </td>
+          <!-- Desktop Only Info -->
+          <td class="desktop-only">{{item.episode.episodeNumber}}: {{item.episode.fileName}}</td>
+          <td class="desktop-only">{{item.server.name}}</td>
+          <td class="desktop-only">{{item.viewDate | date:'dd/MM/yyyy HH:mm'}}</td>
+          <td class="action-cell">
+            <button class="btn-resume" (click)="resumeMovie(item)">
+              <i class="fas fa-play"></i>
+              <span>Tiếp tục tập {{item.episode.episodeNumber}}</span>
+            </button>
+          </td>
+        </tr>
+
+        <tr *ngIf="!historyItems?.length">
+          <td colspan="5" class="no-data">
+            Chưa có lịch sử xem phim
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="error" class="error-message">{{error}}</div>
+  <div *ngIf="loading" class="loading">Đang tải...</div>
+</div>

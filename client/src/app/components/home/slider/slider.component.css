@@ -1,0 +1,272 @@
+/* Slider container */
+#slider {
+  width: 100%;
+  height: 630px; /* Fixed height */
+  position: relative;
+  overflow: hidden;
+
+  &:hover {
+    .card__content {
+      transform: translateY(0);
+    }
+  }
+}
+/* Card styling */
+.card {
+  position: relative;
+  border: none;
+  width: 100%;
+  height: 630px; /* Full height of slider */
+  display: flex; /* Add flexbox */
+  align-items: center;
+  overflow: hidden; /* Hide overflow */
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+
+
+  }
+}
+
+/* Content positioning */
+.card__content {
+  position: absolute;
+  bottom: 0;
+  left: 30;
+  width: 100%;
+  padding: 20px;
+  padding-left: 10%;
+  padding-bottom: 5%;
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,0.8) 0%,
+    rgba(0,0,0,0.4) 60%,
+    transparent 100%
+  );
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+  z-index: 2;
+
+  .card__title {
+    color: #00ff48;
+    font-size: 25px;
+    font-weight: 700;
+    margin: 0;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  }
+
+  .card__description {
+    color: #ffffff;
+    font-size: 16px;
+    margin: 10px 0;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  }
+}
+
+.card:hover .card__content {
+  transform: translateY(0);
+}
+
+/* Button styling */
+.card__button.secondary {
+  display: inline-block;
+  padding: 12px 24px;
+  background: transparent;
+  color: #a970ff;
+  border: 1px solid #a970ff;
+  border-radius: 10px;
+  font-size: 18px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: rgb(196, 0, 0);
+    color: white;
+    border-color: #a970ff;
+  }
+}
+
+/* Owl Carousel Navigation */
+::ng-deep {
+  .owl-nav {
+    margin: 0;
+
+    button.owl-prev,
+    button.owl-next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 40px;
+      height: 40px;
+      background: rgba(0,0,0,0.5) !important;
+      border: 2px solid #a970ff !important;
+      border-radius: 50%;
+      z-index: 10;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background: rgba(0,0,0,0.8) !important;
+      }
+
+      span {
+        font-size: 0;
+
+        &::before {
+          content: '';
+          width: 10px;
+          height: 10px;
+          border-left: 2px solid #fff;
+          border-bottom: 2px solid #fff;
+          display: block;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+        }
+      }
+    }
+
+    button.owl-prev {
+      left: 20px;
+
+      span::before {
+        transform: translate(-25%, -50%) rotate(45deg);
+      }
+    }
+
+    button.owl-next {
+      right: 20px;
+
+      span::before {
+        transform: translate(-75%, -50%) rotate(225deg);
+      }
+    }
+  }
+
+  .owl-dots {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    text-align: center;
+
+    .owl-dot {
+      span {
+        width: 8px;
+        height: 8px;
+        margin: 5px;
+        background: rgba(255,255,255,0.5);
+        display: inline-block;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+      }
+
+      &.active span,
+      &:hover span {
+        background: #a970ff;
+        transform: scale(1.2);
+      }
+    }
+  }
+}
+
+/* Responsive styling */
+@media screen and (max-width: 1400px) {
+  #slider, .card {
+    height: 580px;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  #slider, .card {
+    height: 500px;
+  }
+
+  .card__content {
+    .card__title {
+      font-size: 22px;
+    }
+  }
+}
+
+@media screen and (max-width: 992px) {
+  #slider, .card {
+    height: 450px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  #slider, .card {
+    height: 400px;
+  }
+
+  .card__content {
+    padding: 15px;
+
+    .card__title {
+      font-size: 20px;
+    }
+
+    .card__description {
+      font-size: 14px;
+    }
+  }
+
+  .card__button.secondary {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+
+  ::ng-deep {
+    .owl-nav {
+      button.owl-prev,
+      button.owl-next {
+        width: 30px;
+        height: 30px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 576px) {
+  #slider, .card {
+    height: 350px;
+  }
+
+  .card__content {
+    padding: 10px;
+    padding-left: 10%;
+
+    .card__title {
+      font-size: 18px;
+    }
+
+    .card__description {
+      font-size: 12px;
+      margin: 8px 0;
+    }
+  }
+
+  .card__button.secondary {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+}
+::ng-deep {
+  .owl-carousel {
+    height: 100%;
+
+    .owl-stage-outer {
+      height: 100%;
+    }
+
+    .owl-stage {
+      height: 100%;
+    }
+
+    .owl-item {
+      height: 100%;
+    }
+  }
+}

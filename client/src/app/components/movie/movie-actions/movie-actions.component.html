@@ -1,0 +1,9 @@
+<div class="action-buttons">
+  <button class="btn-add" (click)="onAddToList($event)">
+    <i class="fas fa-plus" [class.fa-plus]="!isInList" [class.fa-check]="isInList" [style.color]="isInList ? '#e8eb34' : ''"></i>
+  </button>
+  <button class="btn-like" (click)="onLike($event)">
+    <!-- Điều chỉnh để khi isLiked là true, màu sẽ hồng -->
+    <i class="fas fa-heart" [class.fa-heart]="isLiked" [class.fa-check]="!isLiked" [style.color]="isLiked ? '#f1046f' : ''"></i>
+  </button>
+</div>

@@ -1,0 +1,75 @@
+/* admin-main.component.css */
+.thumbnail {
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.page-link {
+  cursor: pointer;
+  padding: 0.5rem 0.75rem;
+}
+
+.page-link:focus {
+  box-shadow: none;
+}
+
+.btn-sm {
+  padding: 0.25rem 0.5rem;
+}
+
+.table th {
+  white-space: nowrap;
+}
+/* Pagination styles */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 0;
+}
+
+.page-btn {
+  min-width: 40px;
+  height: 40px;
+  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 16px;
+}
+
+.page-btn:hover:not(.disabled) {
+  background: rgba(169, 112, 255, 0.5);
+}
+
+.page-btn.active {
+  background: #8b46f3;
+  pointer-events: none;
+}
+
+.page-btn.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.table tbody tr:hover {
+  td{
+   color: #8b46f3 !important;
+  }
+
+}
+/* Làm cho bảng responsive hơn */
+@media (max-width: 768px) {
+  .table td, .table th {
+    white-space: nowrap;
+  }
+
+  .btn-sm {
+    padding: 0.2rem 0.4rem;
+  }
+}

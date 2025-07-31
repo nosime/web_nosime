@@ -1,0 +1,116 @@
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #141414;
+  padding: 20px;
+}
+
+.form {
+  background-color: #1a1a1a;
+  border-radius: 20px;
+  box-sizing: border-box;
+  padding: 20px;
+  width: 100%;
+  max-width: 400px;
+  border: 1px solid rgba(169, 112, 255, 0.2);
+}
+
+#heading {
+  color: white;
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0 0 20px;
+  text-align: center;
+}
+
+.field {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.input-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #a970ff;
+}
+
+.input-field {
+  background-color: #2d2d2d;
+  border: none;
+  border-radius: 8px;
+  box-sizing: border-box;
+  color: white;
+  height: 45px;
+  padding: 0 40px;
+  width: 100%;
+  outline: none;
+  transition: all 0.3s;
+}
+
+.input-field:focus {
+  background-color: #333;
+  box-shadow: 0 0 0 2px rgba(169, 112, 255, 0.3);
+}
+
+.input-field.error {
+  border: 1px solid #ff4444;
+}
+
+.error-message {
+  translate: -50% -50%;
+  color: #ff4444;
+  font-size: 14px;
+  text-align: center;
+  margin-top: 10px;
+  position: absolute;
+  left: 50%;
+  top: 63%;
+
+}
+
+.btn {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.button1, .button2 {
+  background-color: #a970ff;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  font-weight: 700;
+  height: 45px;
+  flex: 1;
+  transition: all 0.3s;
+}
+
+.button1:hover, .button2:hover {
+  background-color: #8c46f4;
+}
+
+.button1:disabled {
+  background-color: #666;
+  cursor: not-allowed;
+}
+
+.button3 {
+  background: none;
+  border: none;
+  color: #a970ff;
+  cursor: pointer;
+  font-size: 14px;
+  margin: 0 auto;
+  display: block;
+  transition: color 0.3s;
+}
+
+.button3:hover {
+  color: #8c46f4;
+}

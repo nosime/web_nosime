@@ -1,0 +1,124 @@
+<!-- server-management.component.html -->
+<div class="container-fluid">
+  <div class="row mb-3">
+    <div class="col">
+      <h2>Quản Lý Server Phát Phim</h2>
+    </div>
+  </div>
+
+  <!-- Form -->
+  <div class="card mb-4">
+    <div class="card-header">
+      <h3 class="card-title text-black">{{isEditing ? 'Sửa Server' : 'Thêm Server Mới'}}</h3>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="serverForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div class="col-md-6">
+            <!-- Server Name -->
+            <div class="mb-3">
+              <label class="form-label ">Tên Server <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" formControlName="Name"
+                [class.is-invalid]="serverForm.get('Name')?.invalid && serverForm.get('Name')?.touched">
+              <div class="invalid-feedback">Tên server là bắt buộc</div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <!-- Server Type -->
+            <div class="mb-3">
+              <label class="form-label">Loại Server <span class="text-danger">*</span></label>
+              <select class="form-select" formControlName="Type">
+                <option *ngFor="let type of serverTypes" [value]="type.value">
+                  {{type.label}}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <!-- Priority -->
+            <div class="mb-3">
+              <label class="form-label">Độ ưu tiên</label>
+              <input type="number" class="form-control" formControlName="Priority" min="0">
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <!-- IsActive -->
+            <div class="mb-3">
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" formControlName="IsActive">
+                <label class="form-check-label">Kích hoạt</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Error message -->
+        <div class="alert alert-danger" *ngIf="error">{{error}}</div>
+
+        <!-- Buttons -->
+        <div class="text-end">
+          <button type="button" class="btn btn-secondary me-2"
+                  (click)="resetForm()" [disabled]="loading">
+            Hủy
+          </button>
+          <button type="submit" class="btn btn-primary"
+                  [disabled]="!serverForm.valid || loading">
+            <i class="fas fa-spinner fa-spin me-2" *ngIf="loading"></i>
+            {{isEditing ? 'Cập nhật' : 'Thêm mới'}}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="card">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Tên</th>
+              <th>Loại</th>
+              <th>Độ ưu tiên</th>
+              <th>Trạng thái</th>
+              <th>Ngày tạo</th>
+              <th>Thao tác</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let server of servers">
+              <td>{{server.ServerID}}</td>
+              <td>{{server.Name}}</td>
+              <td>{{server.Type}}</td>
+              <td>{{server.Priority}}</td>
+              <td>
+                <span class="badge"
+                      [class.bg-success]="server.IsActive"
+                      [class.bg-danger]="!server.IsActive">
+                  {{server.IsActive ? 'Hoạt động' : 'Vô hiệu'}}
+                </span>
+              </td>
+              <td>{{server.CreatedAt | date:'dd/MM/yyyy HH:mm'}}</td>
+              <td>
+                <button class="btn btn-sm btn-info me-2" (click)="editServer(server)">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn btn-sm btn-danger" (click)="deleteServer(server.ServerID)">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+            <tr *ngIf="servers.length === 0">
+              <td colspan="7" class="text-center">Không có dữ liệu</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

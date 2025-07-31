@@ -1,0 +1,138 @@
+/* user-list.component.css */
+.user-list-container {
+  padding: 20px;
+  padding-top: 80px;
+  background: #141414;
+  min-height: 100vh;
+}
+
+.header {
+  margin-bottom: 20px;
+}
+
+.title {
+  color: #fff;
+  font-size: 24px;
+  margin: 0;
+}
+
+.table-responsive {
+  background: rgba(0,0,0,0.3);
+  border-radius: 8px;
+  padding: 20px;
+  overflow-x: auto;
+}
+
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+  color: #fff;
+}
+
+.user-table th,
+.user-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.user-table th {
+  background: rgba(0,0,0,0.2);
+  font-weight: 500;
+  color: #a970ff;
+}
+
+.btn-delete {
+  background: rgba(255,68,68,0.2);
+  border: none;
+  color: #ff4444;
+  padding: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-delete:hover {
+  background: rgba(255,68,68,0.3);
+}
+
+.active {
+  color: #00ff75;
+}
+
+.inactive {
+  color: #ff4444;
+}
+
+.loading, .error, .no-data {
+  text-align: center;
+  padding: 20px;
+  color: #fff;
+}
+
+.error {
+  color: #ff4444;
+}
+
+
+
+@media (max-width: 768px) {
+  .user-table {
+    font-size: 14px;
+  }
+
+  .user-table th,
+  .user-table td {
+    padding: 8px;
+  }
+}
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 0;
+  margin-top: 20px;
+}
+
+.page-btn {
+  min-width: 40px;
+  height: 40px;
+  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 16px;
+}
+
+.page-btn:hover:not(.disabled) {
+  background: rgba(169, 112, 255, 0.5);
+}
+
+.page-btn.active {
+  background: #8b46f3;
+  pointer-events: none;
+}
+
+.page-btn.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Responsive pagination */
+@media screen and (max-width: 576px) {
+  .pagination {
+    gap: 5px;
+  }
+
+  .page-btn {
+    min-width: 35px;
+    height: 35px;
+    font-size: 14px;
+  }
+}

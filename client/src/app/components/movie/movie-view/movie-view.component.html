@@ -1,0 +1,14 @@
+
+<div class="movie-player" *ngIf="episode">
+  <div class="player-wrapper">
+    <iframe
+      [src]="embedUrl"
+      frameborder="0"
+      allowfullscreen
+      class="video-iframe"
+    ></iframe>
+  </div>
+  <div class="episode-info">
+    <h2 class="episode-title">Tập {{episode.Name}} | {{episode.FileName}}</h2>
+  </div>
+</div>

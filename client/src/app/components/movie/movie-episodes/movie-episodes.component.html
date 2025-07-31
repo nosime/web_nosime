@@ -1,0 +1,33 @@
+<div class="episodes-container">
+  <!-- Player Section -->
+  <app-movie-view 
+    *ngIf="selectedEpisode"
+    [episode]="selectedEpisode"
+  ></app-movie-view>
+
+  <!-- Server & Episodes Section -->
+  <div class="episodes-section">
+    <div class="server-tabs">
+      <button
+        *ngFor="let server of movieServers"
+        class="server-tab"
+        [class.active]="server === selectedServer"
+        (click)="changeServer(server)"
+      >
+        {{server.serverName}}
+      </button>
+    </div>
+
+    <!-- Sử dụng getter episodes thay vì selectedServer.episodes -->
+    <div class="episodes-list" *ngIf="episodes.length > 0">
+      <button
+        *ngFor="let episode of episodes"
+        class="episode-btn"
+        [class.active]="episode === selectedEpisode"
+        (click)="selectEpisode(episode)"
+      >
+        Tập {{episode.Name}}
+      </button>
+    </div>
+  </div>
+</div>

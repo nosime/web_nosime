@@ -1,0 +1,57 @@
+.action-buttons {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.btn-add,
+.btn-like {
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.4);
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.btn-add:hover {
+  border-color: #e8eb34;
+  background: rgba(169, 112, 255, 0.2);
+}
+
+.btn-add:hover i {
+  transform: scale(1.1);
+  color: #e8eb34;
+}
+
+.btn-like:hover {
+  border-color: #f1046f;
+  background: rgba(169, 112, 255, 0.2);
+}
+
+.btn-like:hover i {
+  transform: scale(1.1);
+  color: #f1046f;
+}
+
+.btn-add:active i,
+.btn-like:active i {
+  transform: scale(0.9);
+}
+
+/* Style for active state */
+.btn-add.active {
+  border-color: #e8eb34;
+  background: rgba(169, 112, 255, 0.2);
+}
+
+.btn-like.active {
+  border-color: #f1046f;
+  background: rgba(169, 112, 255, 0.2);
+}

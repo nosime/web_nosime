@@ -1,0 +1,100 @@
+<div class="filter-wrapper">
+  <div class="filter-container">
+    <!-- Loại phim dropdown -->
+    <div class="filter-group">
+      <div class="filter-header" (click)="toggleDropdown('types')">
+        <span class="filter-title">Loại phim</span>
+        <span class="selected-count" *ngIf="types.length">({{types.length}})</span>
+        <i class="dropdown-icon" [class.active]="activeDropdown === 'types'"></i>
+      </div>
+      <div class="filter-content" [class.show]="activeDropdown === 'types'">
+        <div class="filter-option"
+             *ngFor="let type of availableTypes"
+             [class.active]="types.includes(type.id)"
+             (click)="toggleFilter('types', type.id)">
+          {{type.name}}
+        </div>
+      </div>
+    </div>
+ <!-- Trạng thái dropdown -->
+ <div class="filter-group">
+  <div class="filter-header" (click)="toggleDropdown('status')">
+    <span class="filter-title">Trạng thái</span>
+    <span class="selected-count" *ngIf="status.length">({{status.length}})</span>
+    <i class="dropdown-icon" [class.active]="activeDropdown === 'status'"></i>
+  </div>
+  <div class="filter-content" [class.show]="activeDropdown === 'status'">
+    <div class="filter-option" [class.active]="status.includes('completed')" (click)="toggleFilter('status', 'completed')">
+      Hoàn thành
+    </div>
+    <div class="filter-option" [class.active]="status.includes('ongoing')" (click)="toggleFilter('status', 'ongoing')">
+      Đang chiếu
+    </div>
+    <div class="filter-option" [class.active]="status.includes('trailer')" (click)="toggleFilter('status', 'trailer')">
+      Sắp chiếu
+    </div>
+  </div>
+</div>
+
+
+    <!-- Thể loại dropdown -->
+    <div class="filter-group">
+      <div class="filter-header" (click)="toggleDropdown('categories')">
+        <span class="filter-title">Thể loại</span>
+        <span class="selected-count" *ngIf="categories.length">({{categories.length}})</span>
+        <i class="dropdown-icon" [class.active]="activeDropdown === 'categories'"></i>
+      </div>
+      <div class="filter-content scrollable" [class.show]="activeDropdown === 'categories'">
+        <div class="filter-option" *ngFor="let category of availableCategories" [class.active]="categories.includes(category.Slug)" (click)="toggleFilter('categories', category.Slug)">
+          {{category.Name}}
+        </div>
+      </div>
+    </div>
+ <!-- Sub/Languages -->
+ <div class="filter-group">
+  <div class="filter-header" (click)="toggleDropdown('languages')">
+    <span class="filter-title">Sub</span>
+    <span class="selected-count" *ngIf="languages.length">({{languages.length}})</span>
+    <i class="dropdown-icon" [class.active]="activeDropdown === 'languages'"></i>
+  </div>
+  <div class="filter-content scrollable" [class.show]="activeDropdown === 'languages'">
+    <div class="filter-option" *ngFor="let lang of availableLanguages"
+         [class.active]="languages.includes(lang.slug)"
+         (click)="toggleFilter('languages', lang.slug)">
+      {{lang.name}}
+    </div>
+  </div>
+</div>
+    <!-- Quốc gia dropdown -->
+    <div class="filter-group">
+      <div class="filter-header" (click)="toggleDropdown('countries')">
+        <span class="filter-title">Quốc gia</span>
+        <span class="selected-count" *ngIf="countries.length">({{countries.length}})</span>
+        <i class="dropdown-icon" [class.active]="activeDropdown === 'countries'"></i>
+      </div>
+      <div class="filter-content scrollable" [class.show]="activeDropdown === 'countries'">
+        <div class="filter-option" *ngFor="let country of availableCountries" [class.active]="countries.includes(country.Slug)" (click)="toggleFilter('countries', country.Slug)">
+          {{country.Name}}
+        </div>
+      </div>
+    </div>
+
+    <!-- Năm dropdown -->
+    <div class="filter-group">
+      <div class="filter-header" (click)="toggleDropdown('years')">
+        <span class="filter-title">Năm</span>
+        <span class="selected-count" *ngIf="years.length">({{years.length}})</span>
+        <i class="dropdown-icon" [class.active]="activeDropdown === 'years'"></i>
+      </div>
+      <div class="filter-content scrollable" [class.show]="activeDropdown === 'years'">
+        <div class="filter-option" *ngFor="let year of availableYears" [class.active]="years.includes(year)" (click)="toggleFilter('years', year)">
+          {{year}}
+        </div>
+      </div>
+    </div>
+
+    <button class="clear-btn" (click)="clearAll()" *ngIf="hasFilters">
+      Xóa bộ lọc
+    </button>
+  </div>
+</div>

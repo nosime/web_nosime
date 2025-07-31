@@ -1,0 +1,207 @@
+
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title">Chỉnh sửa phim</h3>
+  </div>
+
+  <div class="card-body">
+    <form [formGroup]="movieForm" (ngSubmit)="onSubmit()">
+      <div class="row">
+        <div class="col-md-6">
+          <!-- Tên phim -->
+          <div class="mb-3">
+            <label class="form-label">Tên phim <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" formControlName="Name"
+              [class.is-invalid]="movieForm.get('Name')?.invalid && movieForm.get('Name')?.touched">
+            <div class="invalid-feedback">
+              {{getErrorMessage('Name')}}
+            </div>
+          </div>
+
+          <!-- Tên gốc -->
+          <div class="mb-3">
+            <label class="form-label">Tên gốc <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" formControlName="OriginName"
+              [class.is-invalid]="movieForm.get('OriginName')?.invalid && movieForm.get('OriginName')?.touched">
+            <div class="invalid-feedback">
+              {{getErrorMessage('OriginName')}}
+            </div>
+          </div>
+
+          <!-- Mô tả -->
+          <div class="mb-3">
+            <label class="form-label">Mô tả <span class="text-danger">*</span></label>
+            <textarea class="form-control" rows="3" formControlName="Description"
+              [class.is-invalid]="movieForm.get('Description')?.invalid && movieForm.get('Description')?.touched"></textarea>
+            <div class="invalid-feedback">
+              {{getErrorMessage('Description')}}
+            </div>
+          </div>
+
+          <!-- Loại phim -->
+          <div class="mb-3">
+            <label class="form-label">Loại phim <span class="text-danger">*</span></label>
+            <select class="form-select" formControlName="Type">
+              <option value="single">Phim lẻ</option>
+              <option value="series">Phim bộ</option>
+            </select>
+          </div>
+
+          <!-- Trạng thái -->
+          <div class="mb-3">
+            <label class="form-label">Trạng thái <span class="text-danger">*</span></label>
+            <select class="form-select" formControlName="Status">
+              <option value="completed">Hoàn thành</option>
+              <option value="ongoing">Đang chiếu</option>
+              <option value="trailer">Sắp chiếu</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <!-- Thumbnail URL -->
+          <div class="mb-3">
+            <label class="form-label">Thumbnail URL <span class="text-danger">*</span></label>
+            <input type="url" class="form-control" formControlName="ThumbUrl"
+              [class.is-invalid]="movieForm.get('ThumbUrl')?.invalid && movieForm.get('ThumbUrl')?.touched">
+            <img *ngIf="movieForm.get('ThumbUrl')?.value"
+                 [src]="movieForm.get('ThumbUrl')?.value"
+                 class="mt-2 img-preview"
+                 (error)="handleImageError($event)"
+                 alt="Thumbnail preview">
+            <div class="invalid-feedback">
+              {{getErrorMessage('ThumbUrl')}}
+            </div>
+          </div>
+
+          <!-- Poster URL -->
+          <div class="mb-3">
+            <label class="form-label">Poster URL <span class="text-danger">*</span></label>
+            <input type="url" class="form-control" formControlName="PosterUrl"
+              [class.is-invalid]="movieForm.get('PosterUrl')?.invalid && movieForm.get('PosterUrl')?.touched">
+            <img *ngIf="movieForm.get('PosterUrl')?.value"
+                 [src]="movieForm.get('PosterUrl')?.value"
+                 class="mt-2 img-preview"
+                 (error)="handleImageError($event)"
+                 alt="Poster preview">
+            <div class="invalid-feedback">
+              {{getErrorMessage('PosterUrl')}}
+            </div>
+          </div>
+
+          <!-- Trailer URL -->
+          <div class="mb-3">
+            <label class="form-label">Trailer URL</label>
+            <input type="url" class="form-control" formControlName="TrailerUrl"
+              [class.is-invalid]="movieForm.get('TrailerUrl')?.invalid && movieForm.get('TrailerUrl')?.touched">
+            <div class="invalid-feedback">
+              {{getErrorMessage('TrailerUrl')}}
+            </div>
+          </div>
+
+          <!-- Năm -->
+          <div class="mb-3">
+            <label class="form-label">Năm <span class="text-danger">*</span></label>
+            <select class="form-select" formControlName="Year">
+              <option *ngFor="let year of years" [value]="year">{{year}}</option>
+            </select>
+          </div>
+
+          <!-- Ngôn ngữ -->
+          <div class="mb-3">
+            <label class="form-label">Ngôn ngữ <span class="text-danger">*</span></label>
+            <select class="form-select" formControlName="Language">
+              <option value="Vietsub">Vietsub</option>
+              <option value="Thuyết minh">Thuyết minh</option>
+              <option value="Lồng tiếng">Lồng tiếng</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <!-- Diễn viên -->
+          <div class="mb-3">
+            <label class="form-label">Diễn viên</label>
+            <input type="text" class="form-control" formControlName="Actors"
+                   placeholder="Nhập tên diễn viên, phân cách bằng dấu phẩy">
+          </div>
+
+          <!-- Đạo diễn -->
+          <div class="mb-3">
+            <label class="form-label">Đạo diễn</label>
+            <input type="text" class="form-control" formControlName="Directors"
+                   placeholder="Nhập tên đạo diễn, phân cách bằng dấu phẩy">
+          </div>
+<!-- add-movie.component.html -->
+<!-- Thêm select Quality vào form -->
+<div class="mb-3">
+  <label class="form-label">Chất lượng <span class="text-danger">*</span></label>
+  <select class="form-select" formControlName="Quality"
+          [class.is-invalid]="movieForm.get('Quality')?.invalid && movieForm.get('Quality')?.touched">
+    <option *ngFor="let quality of qualities" [value]="quality.value">
+      {{quality.label}}
+    </option>
+  </select>
+  <div class="invalid-feedback" *ngIf="movieForm.get('Quality')?.errors?.['required']">
+    Vui lòng chọn chất lượng phim
+  </div>
+</div>
+<!-- Sửa phần Categories -->
+<!-- Thay đổi phần Categories -->
+<div class="mb-3">
+  <label class="form-label">Thể loại <span class="text-danger">*</span></label>
+  <div class="categories-container">
+    <div class="checkbox-group">
+      <div class="form-check" *ngFor="let category of categories">
+        <input class="form-check-input"
+               type="checkbox"
+               [id]="'category-' + category.id"
+               [value]="category.slug"
+               [checked]="isSelectedCategory(category.slug)"
+               (change)="onCategoryChange($event, category.slug)">
+        <label class="form-check-label text-white" [for]="'category-' + category.id">
+          {{category.name}}
+        </label>
+      </div>
+    </div>
+  </div>
+  <div class="invalid-feedback" *ngIf="movieForm.get('Categories')?.errors?.['required']">
+    Vui lòng chọn ít nhất một thể loại
+  </div>
+</div>
+
+<!-- Sửa phần Countries -->
+<div class="mb-3">
+  <label class="form-label">Quốc gia <span class="text-danger">*</span></label>
+  <select class="form-select" formControlName="Countries"
+          [class.is-invalid]="movieForm.get('Countries')?.invalid && movieForm.get('Countries')?.touched">
+    <option value="">-- Chọn quốc gia --</option>
+    <option *ngFor="let country of countries" [value]="country.slug">
+      {{country.name}}
+    </option>
+  </select>
+  <div class="invalid-feedback" *ngIf="movieForm.get('Countries')?.errors?.['required']">
+    Vui lòng chọn quốc gia
+  </div>
+</div>
+        </div>
+      </div>
+
+      <!-- Error message -->
+      <div class="alert alert-danger" *ngIf="error">
+        {{error}}
+      </div>
+
+      <!-- Buttons -->
+      <div class="text-end mt-4">
+        <button type="button" class="btn btn-danger me-2" (click)="cancel()" [disabled]="loading">
+          Hủy
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="!movieForm.valid || loading">
+          <i class="fas fa-spinner fa-spin me-2" *ngIf="loading"></i>
+          {{loading ? 'Đang xử lý...' : 'Cập nhật'}}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

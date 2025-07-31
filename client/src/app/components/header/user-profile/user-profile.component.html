@@ -1,0 +1,72 @@
+<div *ngIf="!user" class="d-flex align-items-center justify-content-end">
+  <a routerLink="/login" class="btn btn-outline-light me-2">Đăng nhập</a>
+  <a routerLink="/register" class="btn btn-primary">Đăng ký</a>
+</div>
+
+<div *ngIf="user" class="user-menu">
+  <div class="profile-trigger" (click)="toggleDropdown($event)">
+    <div class="avatar">
+      <img [src]="user.Avatar || '/assets/logo/favicon.ico'" alt="avatar">
+    </div>
+    <span class="username">{{ user.DisplayName || user.Username }}</span>
+    <i class="fas fa-chevron-down"></i>
+  </div>
+
+  <div class="dropdown-menu" [class.show]="isDropdownOpen">
+    <!-- Mobile header -->
+    <div class="mobile-header">
+      <button class="back-btn" (click)="toggleDropdown($event)">
+        <i class="fas fa-arrow-left"></i>
+      </button>
+      <div class="mobile-user">
+        <div class="mobile-avatar">
+          <img [src]="user.Avatar || '/assets/logo/favicon.ico'" alt="avatar">
+        </div>
+        <span>{{ user.DisplayName || user.Username }}</span>
+      </div>
+    </div>
+    <div class="menu-items">
+    <button class="value" routerLink="/profile">
+      <svg viewBox="0 0 16 16"><path d="m1.5 13v1a.5.5 0 0 0 .3379.4731 18.9718 18.9718 0 0 0 6.1621 1.0269 18.9629 18.9629 0 0 0 6.1621-1.0269.5.5 0 0 0 .3379-.4731v-1a6.5083 6.5083 0 0 0 -4.461-6.1676 3.5 3.5 0 1 0 -4.078 0 6.5083 6.5083 0 0 0 -4.461 6.1676zm4-9a2.5 2.5 0 1 1 2.5 2.5 2.5026 2.5026 0 0 1 -2.5-2.5zm2.5 3.5a5.5066 5.5066 0 0 1 5.5 5.5v.6392a18.08 18.08 0 0 1 -11 0v-.6392a5.5066 5.5066 0 0 1 5.5-5.5z"></path></svg>
+      Tài khoản
+    </button>
+    <button class="value" routerLink="/xem-sau">
+      <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M7.833 2c-.507 0-.98.216-1.318.576A1.92 1.92 0 0 0 6 3.89V21a1 1 0 0 0 1.625.78L12 18.28l4.375 3.5A1 1 0 0 0 18 21V3.889c0-.481-.178-.954-.515-1.313A1.808 1.808 0 0 0 16.167 2H7.833Z"/>
+      </svg>
+
+      Danh sách của tôi
+    </button>
+    <button class="value" routerLink="/yeu-thich">
+      <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+        <path d="m12.75 20.66 6.184-7.098c2.677-2.884 2.559-6.506.754-8.705-.898-1.095-2.206-1.816-3.72-1.855-1.293-.034-2.652.43-3.963 1.442-1.315-1.012-2.678-1.476-3.973-1.442-1.515.04-2.825.76-3.724 1.855-1.806 2.201-1.915 5.823.772 8.706l6.183 7.097c.19.216.46.34.743.34a.985.985 0 0 0 .743-.34Z"/>
+      </svg>
+
+      Phim yêu thích
+    </button>
+    <button class="value" routerLink="/lich-su">
+      <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+        <path fill-rule="evenodd" d="M19.003 3A2 2 0 0 1 21 5v2h-2V5.414L17.414 7h-2.828l2-2h-2.172l-2 2H9.586l2-2H9.414l-2 2H3V5a2 2 0 0 1 2-2h14.003ZM3 9v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9H3Zm2-2.414L6.586 5H5v1.586Zm4.553 4.52a1 1 0 0 1 1.047.094l4 3a1 1 0 0 1 0 1.6l-4 3A1 1 0 0 1 9 18v-6a1 1 0 0 1 .553-.894Z" clip-rule="evenodd"/>
+      </svg>
+
+
+      Lịch sử xem
+    </button>
+    <button *ngIf="user?.RoleName === 'Admin'" class="value" routerLink="/admin">
+      <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 6c0 1.657-3.134 3-7 3S5 7.657 5 6m14 0c0-1.657-3.134-3-7-3S5 4.343 5 6m14 0v6M5 6v6m0 0c0 1.657 3.134 3 7 3s7-1.343 7-3M5 12v6c0 1.657 3.134 3 7 3s7-1.343 7-3v-6"/>
+      </svg>
+      Trang Admin
+    </button>
+
+    <hr class="divider">
+    <button class="value" (click)="logout()">
+      <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+        <path fill-rule="evenodd" d="M5 6a1 1 0 0 1 1-1h12a1 1 0 1 1 0 2H6a1 1 0 0 1-1-1Zm0 12a1 1 0 0 1 1-1h12a1 1 0 1 1 0 2H6a1 1 0 0 1-1-1Zm3.85-9.76A1 1 0 0 1 10.5 9v6a1 1 0 0 1-1.65.76l-3.5-3a1 1 0 0 1 0-1.52l3.5-3ZM12 10a1 1 0 0 1 1-1h5a1 1 0 1 1 0 2h-5a1 1 0 0 1-1-1Zm0 4a1 1 0 0 1 1-1h5a1 1 0 1 1 0 2h-5a1 1 0 0 1-1-1Z" clip-rule="evenodd"/>
+      </svg>
+
+      Đăng xuất
+    </button>
+    </div>
+  </div>
+</div>

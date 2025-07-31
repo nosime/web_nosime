@@ -1,0 +1,65 @@
+.episodes-section {
+  padding: 20px 5%;
+  background: rgba(0,0,0,0.3);
+  border-radius: 10px;
+}
+
+.server-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.server-tab {
+  padding: 8px 16px;
+  background: rgba(255,255,255,0.1);
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.server-tab:hover {
+  background: rgba(169,112,255,0.3);
+}
+
+.server-tab.active {
+  background: #a970ff;
+}
+
+.episodes-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 10px;
+}
+
+.episode-btn {
+  padding: 8px;
+  background: rgba(255,255,255,0.1);
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.episode-btn:hover {
+  background: rgba(169,112,255,0.3);
+}
+
+.episode-btn.active {
+  background: #a970ff;
+}
+
+@media (max-width: 768px) {
+  .episodes-list {
+    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+  }
+}
+.episodes-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}

@@ -1,0 +1,58 @@
+<div class="auth-container">
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="form">
+    <h2 id="heading">Đăng Ký Tài Khoản</h2>
+
+    <div class="field">
+      <i class="fas fa-user input-icon"></i>
+      <input
+        type="text"
+        class="input-field"
+        [ngClass]="{'error': isFieldInvalid('username')}"
+        placeholder="Tên đăng nhập"
+        formControlName="username">
+    </div>
+
+    <div class="field">
+      <i class="fas fa-user input-icon"></i>
+      <input
+        type="text"
+        class="input-field"
+        [ngClass]="{'error': isFieldInvalid('displayName')}"
+        placeholder="Tên hiển thị"
+        formControlName="displayName">
+    </div>
+
+    <div class="field">
+      <i class="fas fa-envelope input-icon"></i>
+      <input
+        type="email"
+        class="input-field"
+        [ngClass]="{'error': isFieldInvalid('email')}"
+        placeholder="Email"
+        formControlName="email">
+    </div>
+
+    <div class="field">
+      <i class="fas fa-lock input-icon"></i>
+      <input
+        type="password"
+        class="input-field"
+        [ngClass]="{'error': isFieldInvalid('password')}"
+        placeholder="Mật khẩu"
+        formControlName="password">
+    </div>
+
+    <div *ngIf="errorMessage" class="error-message">
+      {{errorMessage}}
+    </div>
+
+    <div class="btn">
+      <button type="submit" class="button1" [disabled]="registerForm.invalid || loading">
+        {{loading ? 'Đang xử lý...' : 'Đăng Ký'}}
+      </button>
+      <button type="button" class="button2" (click)="goToLogin()">
+        Đăng Nhập
+      </button>
+    </div>
+  </form>
+</div>

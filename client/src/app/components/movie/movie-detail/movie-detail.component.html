@@ -1,0 +1,77 @@
+<div class="movie-detail-container" *ngIf="movie">
+  <div class="hero-section" [style.backgroundImage]="movie.PosterUrl ? 'url(' + movie.PosterUrl + ')' : ''">
+    <div class="overlay">
+      <div class="content-wrapper">
+        <div class="title-section">
+          <h1 class="movie-title">{{movie.Name}}</h1>
+          <div class="controls">
+            <!-- Sử dụng getter hasServers -->
+            <button class="btn-play"
+        [disabled]="!hasServers"
+        (click)="scrollToPlayer()">
+  <i class="fas fa-play"></i>
+  Phát
+</button>
+            <app-movie-actions [movieId]="movie.MovieID"></app-movie-actions>
+          </div>
+        </div>
+
+        <div class="movie-info">
+          <div class="basic-info">
+            <span class="year">{{movie.Year}}</span>
+            <span class="quality">{{movie.Quality}}</span>
+            <span class="episodes">{{formatEpisodeInfo()}}</span>
+            <span class="views">{{movie.Views}} lượt xem</span>
+          </div>
+
+          <div class="content-row">
+            <div class="description-col">
+              <p class="description" [class.expanded]="isDescriptionExpanded">
+                {{formatDescription(movie.Description)}}
+              </p>
+              <button class="description-toggle" *ngIf="formatDescription(movie.Description).length > 150" (click)="toggleDescription()">
+                {{ isDescriptionExpanded ? 'Thu gọn' : 'Xem thêm' }}
+              </button>
+            </div>
+
+            <div class="meta-info-col">
+              <div class="categories" *ngIf="movie.Categories">
+                <span class="label">Thể loại:</span>
+                <span class="value">{{movie.Categories}}</span>
+              </div>
+
+              <div class="countries" *ngIf="movie.Countries">
+                <span class="label">Quốc gia:</span>
+                <span class="value">{{movie.Countries}}</span>
+              </div>
+              <div class="directors">
+                <span class="label">Đạo diễn:</span>
+                <span class="value">{{ movie.Directors || 'Đang cập nhật' }}</span>
+              </div>
+              <div class="actors">
+                <span class="label">Diễn viên:</span>
+                <span class="value">{{ movie.Actors || 'Đang cập nhật' }}</span>
+              </div>
+
+              <div class="status">
+                <span class="label">Trạng thái:</span>
+                <span class="value">{{movie.Status === 'completed' ? 'Hoàn thành' : 'Đang chiếu'}}</span>
+              </div>
+
+              <div class="language">
+                <span class="label">Ngôn ngữ:</span>
+                <span class="value">{{movie.Language}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <app-movie-episodes
+  *ngIf="hasServers"
+  [movieServers]="movieServers"
+  [movieId]="movie.MovieID"
+></app-movie-episodes>
+</div>

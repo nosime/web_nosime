@@ -1,0 +1,27 @@
+<!-- slider.component.html -->
+<ng-container *ngIf="!loading">
+<div id="slider" role="region" aria-label="Movie Slider" >
+  <owl-carousel-o [options]="Slider" *ngIf="movies_slider.length > 0">
+    <ng-template carouselSlide *ngFor="let slide of movies_slider; let i = index">
+      <div class="card" [attr.aria-label]="'Slide ' + (i + 1) + ' of ' + movies_slider.length">
+        <img loading="lazy"
+              [src]="slide.PosterUrl"
+             [alt]="slide.Name"
+             class="slider-img"
+             (error)="handleImageError($event)">
+        <div class="card__content">
+          <h2 class="card__title">{{slide.Name}}</h2>
+          <p class="card__description">{{slide.Categories}}</p>
+          <div class="button-group">
+            <a [routerLink]="['/phim', slide.Slug]"
+               class="card__button secondary"
+               [attr.aria-label]="'View details for ' + slide.Name">
+              Xem Phim Ngay
+            </a>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </owl-carousel-o>
+</div>
+</ng-container>

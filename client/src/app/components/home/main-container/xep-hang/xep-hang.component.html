@@ -1,0 +1,39 @@
+<div class="top-movies">
+  <h2 class="title">Top 10 Phim Được Xem Nhiều Nhất</h2>
+  <div class="carousel-wrapper">
+    <button class="nav-btn prev-btn" (click)="prevSlide()">‹</button>
+    <div *ngIf="loading" class="loading">Đang tải...</div>
+    <div *ngIf="error" class="error">{{error}}</div>
+    <owl-carousel-o *ngIf="!loading && !error"
+    #owlCar [options]="customOptions" class="carousel-container">
+    <ng-container *ngFor="let movie of topMovies">
+      <ng-template carouselSlide>
+        <div class="box">
+          <a [routerLink]="['/phim', movie.Slug]">
+            <!-- Thêm rank number vào background -->
+            <div class="rank-number" [ngClass]="{
+              'double-digits': movie?.Rank === 10,
+              'single-digit': movie?.Rank !== 10
+            }">
+              {{movie?.Rank}}
+            </div>
+
+            <div class="card_film" [ngClass]="movie && movie.Rank ? 'film' + (movie.Rank % 3) : 'film0'">
+              <div class="card_film_in">
+                <img loading="lazy" [src]="movie.ThumbUrl" [alt]="movie.Name" id="img_film"/>
+                <div class="info_card">
+                  <span id="info_film">{{movie.Year}} - {{movie.Quality}}</span>
+                  <span id="info_y">{{movie.Name}}</span>
+
+        
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </ng-template>
+    </ng-container>
+  </owl-carousel-o>
+  <button class="nav-btn next-btn" (click)="nextSlide()">›</button>
+</div>
+</div>

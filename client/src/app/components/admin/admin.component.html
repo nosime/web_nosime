@@ -1,0 +1,50 @@
+<!-- admin.component.html -->
+<div class="admin-container">
+  <!-- Thanh tab -->
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link"
+         [class.active]="activeTab === 'main'"
+         (click)="setActiveTab('main')">
+        Danh sách phim
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link"
+         [class.active]="activeTab === 'server'"
+         (click)="setActiveTab('server')">
+        Quản lý Server
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link"
+         [class.active]="activeTab === 'users'"
+         (click)="setActiveTab('users')">
+        Người dùng
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link"
+         [class.active]="activeTab === 'settings'"
+         (click)="setActiveTab('settings')">
+        Cài đặt
+      </a>
+    </li>
+  </ul>
+
+  <!-- Nội dung tab -->
+  <div class="tab-content p-3">
+    <div *ngIf="activeTab === 'main'">
+      <app-admin-main></app-admin-main>
+    </div>
+    <div *ngIf="activeTab === 'server'">
+     <app-server-management></app-server-management>
+    </div>
+    <div *ngIf="activeTab === 'users'">
+      <app-user-list></app-user-list>
+    </div>
+    <div *ngIf="activeTab === 'settings'">
+      <!-- Thêm component settings ở đây -->
+    </div>
+  </div>
+</div>

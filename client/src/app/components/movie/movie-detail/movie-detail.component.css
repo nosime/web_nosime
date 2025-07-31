@@ -1,0 +1,329 @@
+.movie-detail-container {
+  min-height: 100vh;
+  background-color: #141414;
+  color: white;
+  position: relative;
+}
+
+/* Hero Section */
+.hero-section {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  min-height: 400px;
+  max-height: 800px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: all 0.3s ease;
+}
+.controls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding-left: 3%;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom,
+    rgba(20,20,20,0.2) 0%,
+    rgba(20,20,20,0.8) 60%,
+    rgba(20,20,20,1) 100%);
+  padding: 60px 5% 0;
+  display: flex;
+  align-items: flex-end;
+}
+
+.content-wrapper {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-bottom: 50px;
+}
+
+/* Title Section */
+.title-section {
+  margin-bottom: 20px;
+}
+
+.movie-title {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+/* Content Layout */
+.content-row {
+  display: flex;
+  gap: 30px;
+  margin-top: 20px;
+}
+
+.description-col {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+}
+
+.meta-info-col {
+  width: 300px;
+  padding-left: 30px;
+  border-left: 1px solid rgba(255,255,255,0.1);
+  overflow-y: auto; /* Thêm thanh cuộn dọc */
+  max-height: 225px; /* Chiều cao tối đa */
+  padding-right: 10px; /* Khoảng trống để tránh che thanh cuộn */
+}
+/* Style thanh cuộn */
+.meta-info-col::-webkit-scrollbar {
+  width: 8px;
+}
+
+.meta-info-col::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.meta-info-col::-webkit-scrollbar-thumb {
+  background: #8c46f4;
+  border-radius: 4px;
+}
+
+.meta-info-col::-webkit-scrollbar-thumb:hover {
+  background: #6e32db;
+}
+
+.description {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #ccc;
+  margin: 0;
+  transition: all 0.3s ease;
+}
+
+.description-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: #a970ff;
+  cursor: pointer;
+  padding: 5px 0;
+  font-size: 0.9rem;
+  margin-top: 8px;
+}
+
+.description-toggle:hover {
+  text-decoration: underline;
+}
+
+.meta-info-col > div {
+  margin-bottom: 15px;
+}
+
+.meta-info-col .label {
+  color: #999;
+  margin-right: 10px;
+  font-weight: 500;
+  display: inline-block;
+  min-width: 80px;
+}
+
+.meta-info-col .value {
+  color: #fff;
+}
+
+/* Basic Info */
+.basic-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 15px;
+  color: #ccc;
+}
+/* Nút Phát */
+.btn-play {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 24px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: white;
+  background: #8c46f4;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-play i {
+  font-size: 1.1em;
+}
+
+.btn-play:hover {
+  background: #893ef9;
+  transform: scale(1.02);
+}
+
+.btn-play:active {
+  transform: scale(0.98);
+}
+
+.btn-play:disabled {
+  background: #666;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Nút Add và Like */
+.btn-add,
+.btn-like {
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid rgba(255,255,255,0.2);
+  border-radius: 50%;
+  background: rgba(0,0,0,0.4);
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-add i,
+.btn-like i {
+  font-size: 1.2rem;
+  transition: all 0.2s ease;
+}
+
+.btn-add:hover {
+  border-color: #e8eb34;
+  background: rgba(169,112,255,0.2);
+}
+
+.btn-add:hover i {
+  transform: scale(1.1);
+  color: #e8eb34;
+}
+
+.btn-like:hover {
+  border-color: #f1046f;
+  background: rgba(169,112,255,0.2);
+}
+
+
+.btn-like:hover i {
+  transform: scale(1.1);
+  color: #f1046f;
+}
+.btn-add:active i,
+.btn-like:active i {
+  transform: scale(0.9);
+}
+/* Responsive */
+@media (max-width: 1200px) {
+  .hero-section {
+    aspect-ratio: 2/1;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    aspect-ratio: 3/2;
+  }
+  .meta-info-col {
+    max-height: 200px; /* Chiều cao nhỏ hơn cho màn hình nhỏ */
+  }
+  .btn-play {
+    padding: 10px 20px;
+    font-size: 1rem;
+  }
+
+  .btn-add,
+  .btn-like {
+    width: 36px;
+    height: 36px;
+  }
+  .description {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    max-height: none;
+  }
+
+  .description.expanded {
+    -webkit-line-clamp: unset;
+    max-height: 200px; /* Chiều cao tối đa khi mở rộng */
+    overflow-y: auto; /* Thêm thanh cuộn khi nội dung vượt quá */
+  }
+
+  /* Style cho thanh cuộn */
+  .description.expanded::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .description.expanded::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+  }
+
+  .description.expanded::-webkit-scrollbar-thumb {
+    background: #a970ff;
+    border-radius: 3px;
+  }
+
+  .description.expanded::-webkit-scrollbar-thumb:hover {
+    background: #8c46f4;
+  }
+
+  .description-toggle {
+    display: block;
+  }
+}
+@media (max-width: 576px) {
+  .description {
+    font-size: 1rem;
+    -webkit-line-clamp: 2;
+  }
+.content-wrapper {
+    padding-bottom: 0px;
+  }
+  .description.expanded {
+    max-height: 150px; /* Chiều cao nhỏ hơn cho mobile */
+  }
+  .meta-info-col {
+    max-height: 150px; /* Chiều cao nhỏ hơn nữa cho mobile */
+  }
+}
+@media (max-width: 480px) {
+  .hero-section {
+    aspect-ratio: 1/1;
+    min-height: 300px;
+  }
+
+  .controls {
+    gap: 8px;
+  }
+
+  .btn-play {
+    padding: 8px 16px;
+  }
+
+  .btn-add,
+  .btn-like {
+    width: 32px;
+    height: 32px;
+  }
+
+  .btn-add i,
+  .btn-like i {
+    font-size: 1rem;
+  }
+}

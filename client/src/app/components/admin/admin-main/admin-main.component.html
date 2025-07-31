@@ -1,0 +1,138 @@
+<!-- admin-main.component.html -->
+<div class="container-fluid">
+  <div class="row mb-3">
+    <div class="col">
+      <h2>Quản Lý Phim</h2>
+    </div>
+<div class="col text-end">
+  <button class="btn"
+              [class.btn-primary]="!showAddForm && !showEditForm && !showEpisodeManager"
+              [class.btn-secondary]="showAddForm || showEditForm || showEpisodeManager"
+              (click)="showAddForm || showEditForm || showEpisodeManager ? goBack() : toggleAddForm()">
+        <i class="fas"
+           [class.fa-plus]="!showAddForm && !showEditForm && !showEpisodeManager"
+           [class.fa-arrow-left]="showAddForm || showEditForm || showEpisodeManager">
+        </i>
+        {{showAddForm || showEditForm || showEpisodeManager ? ' Trở về' : ' Thêm phim mới'}}
+      </button>
+</div>
+  </div>
+
+  <!-- Loading và Error states -->
+  <div *ngIf="loading" class="text-center my-3">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger">
+    {{error}}
+  </div>
+ <!-- Form thêm phim -->
+ <app-add-movie *ngIf="showAddForm"
+ (onCancel)="toggleAddForm()"
+ (onSubmitSuccess)="onAddSuccess()">
+</app-add-movie>
+
+<app-edit-movie *ngIf="showEditForm && !showAddForm"
+    [movieId]="selectedMovieId!"
+    [Slug]="selectedSlug!"
+    (onCancel)="onEditCancel()"
+    (onSubmitSuccess)="onEditSuccess()">
+  </app-edit-movie>
+
+  <app-episodes-management
+  *ngIf="showEpisodeManager"
+  [movieId]="selectedMovieId!"
+  (onCancel)="closeEpisodeManager()"
+></app-episodes-management>
+
+
+  <div *ngIf="!showAddForm && !showEditForm && !showEpisodeManager">
+  <!-- Table -->
+  <div class="table-responsive" *ngIf="!loading && !error">
+    <table class="table table table-hover text-white">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Hình ảnh</th>
+          <th>Tên phim</th>
+          <th>Tập</th>
+          <th>Loại</th>
+          <th>Năm</th>
+          <th>Trạng thái</th>
+          <th>Thao tác</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let movie of movies">
+          <td>{{movie.MovieID}}</td>
+          <td>
+            <img [src]="movie.ThumbUrl"
+                 [alt]="movie.Name"
+                 class="thumbnail"
+                 style="width: 50px; height: 70px; object-fit: cover;">
+          </td>
+          <td>{{movie.Name}}</td>
+          <td>
+            {{(movie.Episode_Current || movie.Episode_Total) ?
+              (movie.Episode_Current || 0) + '/' + (movie.Episode_Total || '?') :
+              'Chưa có tập'}}
+          </td>
+          <td>{{movie.Type}}</td>
+          <td>{{movie.Year}}</td>
+          <td>{{movie.Status}}</td>
+          <td>
+            <a [routerLink]="['/phim', movie.Slug]"
+     target="_blank"
+     class="btn btn-sm btn-primary me-2">
+    <i class="fas fa-eye"></i> Xem
+  </a>
+            <button class="btn btn-sm btn-info me-2" (click)="editMovie(movie)">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button class="btn btn-sm btn-success me-2" (click)="viewEpisodes(movie)">
+              <i class="fas fa-video"></i> Tập Phim
+            </button>
+            <!-- Giữ nguyên button delete -->
+            <button class="btn btn-sm btn-danger"
+        (click)="deleteMovie(movie)"
+        [disabled]="loading">
+  <i class="fas fa-trash"></i>
+</button>
+          </td>
+        </tr>
+        <tr *ngIf="movies.length === 0">
+          <td colspan="7" class="text-center">Không có phim nào</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Phân trang -->
+
+  <div class="pagination" *ngIf="totalPages > 1">
+    <button
+      class="page-btn"
+      [class.disabled]="currentPage === 1"
+      (click)="goToPage(currentPage - 1)">
+      ‹
+    </button>
+
+    <button
+      *ngFor="let page of pages"
+      class="page-btn"
+      [class.active]="page === currentPage"
+      (click)="goToPage(page)">
+      {{page}}
+    </button>
+
+    <button
+      class="page-btn"
+      [class.disabled]="currentPage === totalPages"
+      (click)="goToPage(currentPage + 1)">
+      ›
+    </button>
+  </div>
+</div>
+</div>

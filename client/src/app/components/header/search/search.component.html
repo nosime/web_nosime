@@ -1,0 +1,20 @@
+<!-- search.component.html -->
+<form class="d-flex input-group w-auto" (ngSubmit)="onSearch($event)">
+  <input
+    id="input_search"
+    type="search"
+    class="form-control rounded"
+    placeholder="Tìm kiếm phim..."
+    aria-label="Search"
+    aria-describedby="search-addon"
+    [(ngModel)]="searchTerm"
+    name="search"
+    (input)="onSearchInput($event)"
+    
+  />
+  <button class="input-group-text text-white border-0"
+          id="search-addon"
+          type="submit">
+    <i class="fas fa-search"></i>
+  </button>
+</form>

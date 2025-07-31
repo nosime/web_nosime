@@ -5,6 +5,7 @@ A full-stack movie streaming web application built with modern technologies.
 ## 🚀 Tech Stack
 
 ### Frontend
+
 - **Angular 18** - Modern web framework
 - **TypeScript** - Type-safe development
 - **Angular Material & MDBootstrap** - UI components
@@ -12,6 +13,7 @@ A full-stack movie streaming web application built with modern technologies.
 - **Owl Carousel** - Image/video carousel
 
 ### Backend
+
 - **Node.js** - Runtime environment
 - **Express.js** - Web framework
 - **JWT** - Authentication
@@ -19,6 +21,7 @@ A full-stack movie streaming web application built with modern technologies.
 - **CORS** - Cross-origin resource sharing
 
 ### Database
+
 - **SQL Server (MSSQL)** - Primary database
 - **Database migrations** - Schema management
 
@@ -57,6 +60,7 @@ web_nosime/
 ## 🚀 Getting Started
 
 ### Prerequisites
+
 - Node.js 18+
 - SQL Server
 - Angular CLI
@@ -64,17 +68,20 @@ web_nosime/
 ### Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone git@github.com:nosime/web_nosime.git
    cd web_nosime
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm run install-all
    ```
 
 3. **Setup database**
+
    - Configure database connection in `server/database/config.js`
    - Run migrations: `cd server && npm run migrate`
 
@@ -101,6 +108,7 @@ web_nosime/
 ## 🔐 Environment Variables
 
 Create `.env` file in the server directory:
+
 ```env
 JWT_SECRET=your_jwt_secret
 DB_SERVER=your_db_server
@@ -124,6 +132,7 @@ This project is licensed under the ISC License.
 ## 👤 Author
 
 **Nosime**
+
 - GitHub: [@nosime](https://github.com/nosime)
 - Email: voson0404@gmail.com
 

@@ -1,0 +1,55 @@
+<div class="movie-section">
+  <div class="header">
+    <div class="title-group">
+      <h2 class="title">Danh Sách Đang Xem</h2>
+      <a class="see-more" routerLink="/please-view">
+        <span class="arrow">⩥</span>
+        <span class="text">Xem thêm</span>
+
+      </a>
+    </div>
+    <div class="dots-nav">
+      <div class="dot"
+        *ngFor="let dot of getDots(); let i = index"
+        [class.active]="currentPage === i"
+        (click)="goToPage(i)">
+      </div>
+    </div>
+  </div>
+
+  <div class="carousel-wrapper">
+    <button class="nav-btn prev-btn" (click)="prevSlide()">‹</button>
+
+    <div *ngIf="loading" class="loading">Đang tải...</div>
+    <div *ngIf="error" class="error">{{error}}</div>
+
+    <owl-carousel-o
+      *ngIf="!loading && !error"
+      #owlCar
+      [options]="customOptions"
+      class="carousel-container"
+      (translated)="onSlideChange($event)">
+      <!-- Thêm (translated) event binding ở đây -->
+
+      <ng-container *ngFor="let movie of movies_hs">
+        <ng-template carouselSlide>
+          <div class="movie-box">
+            <a [routerLink]="['/phim', movie.Slug]">
+              <div class="card_film" [ngClass]="'film' + (movie.MovieID % 3)">
+                <div class="card_film_in">
+                  <img loading="lazy" [src]="movie.ThumbUrl" [alt]="movie.Name" id="img_film"/>
+                  <div class="info_card">
+                    <span id="info_film">{{movie.Year}} - {{movie.Quality}}</span>
+                    <span id="info_y">{{movie.Name}}</span>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+        </ng-template>
+      </ng-container>
+    </owl-carousel-o>
+
+    <button class="nav-btn next-btn" (click)="nextSlide()">›</button>
+  </div>
+</div>

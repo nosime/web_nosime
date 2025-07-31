@@ -1,0 +1,32 @@
+/* admin.component.css */
+.admin-container {
+  padding: 20px;
+  padding-top: 80px;
+  min-height: 100vh;
+  background: #141414;
+  color: white;
+}
+
+.nav-tabs {
+  background: #0e0e0e;
+  padding: 10px 10px 0;
+  border-radius: 4px 4px 0 0;
+}
+
+.nav-link {
+  color: #727171;
+  cursor: pointer;
+}
+.nav-item{
+  background: #0e0e0e;
+}
+.nav-link.active {
+  color: #8c46f4;
+  font-weight: 500;
+}
+
+.tab-content {
+  background: #141414;
+  border-radius: 0 0 4px 4px;
+  min-height: calc(100vh - 180px);
+}

@@ -1,0 +1,84 @@
+<div class="container-fluid">
+  <div class="row mb-3">
+    <div class="col">
+    <h2 >Quản Lý Người Dùng</h2>
+  </div>
+  </div>
+
+  <div class="table-responsive">
+    <div *ngIf="loading" class="loading">Đang tải...</div>
+    <div *ngIf="error" class="error">{{error}}</div>
+
+    <table class="user-table" *ngIf="!loading && !error">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Tên đăng nhập</th>
+          <th>Email</th>
+          <th>Tên hiển thị</th>
+          <th>Vai trò</th>
+          <th>Trạng thái</th>
+          <th>Ngày tạo</th>
+          <th>Thao tác</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users">
+          <td>{{user.UserID}}</td>
+          <td>{{user.Username}}</td>
+          <td>{{user.Email}}</td>
+          <td>{{user.DisplayName}}</td>
+          <td>{{user.RoleName || 'Thành viên'}}</td>
+          <td>
+            <span [class.active]="user.IsActive" [class.inactive]="!user.IsActive">
+              {{user.IsActive ? 'Hoạt động' : 'Đã khóa'}}
+            </span>
+          </td>
+          <td>{{user.CreatedAt | date:'dd/MM/yyyy HH:mm'}}</td>
+          <td> <a [routerLink]="['/xem-sau', user.UserID]" class="btn btn-outline-warning btn-sm me-2">
+            <i class="fa-solid fa-bookmark"></i>Xem sau
+          </a>
+          <a [routerLink]="['/yeu-thich', user.UserID]" class="btn btn-outline-info btn-sm me-2">
+            <i class="fa-solid fa-heart "></i> Yêu thích
+          </a>
+          <a [routerLink]="['/lich-su', user.UserID]" class="btn btn-outline-primary btn-sm me-2">
+            <i class="fa-solid fa-clock-rotate-left"></i> Lịch sử
+          </a>
+            <button class="btn btn-delete btn-sm" (click)="deleteUser(user.UserID)">
+              <i class="fas fa-trash"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="!loading && !error && users.length === 0" class="no-data">
+      Không có người dùng nào
+    </div>
+
+    <!-- Phân trang -->
+    <div class="pagination" *ngIf="totalPages > 1">
+      <button
+        class="page-btn"
+        [class.disabled]="currentPage === 1"
+        (click)="goToPage(currentPage - 1)">
+        ‹
+      </button>
+
+      <button
+        *ngFor="let page of pages"
+        class="page-btn"
+        [class.active]="page === currentPage"
+        (click)="goToPage(page)">
+        {{page}}
+      </button>
+
+      <button
+        class="page-btn"
+        [class.disabled]="currentPage === totalPages"
+        (click)="goToPage(currentPage + 1)">
+        ›
+      </button>
+    </div>
+  </div>
+</div>

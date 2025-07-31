@@ -1,0 +1,135 @@
+<div class="container-fluid">
+  <div class="row mb-3">
+  </div>
+
+  <!-- Form -->
+  <div class="card mb-4">
+    <div class="card-header">
+      <h3 class="card-title text-black">{{isEditMode ? 'Sửa Tập Phim' : 'Thêm Tập Phim Mới'}}</h3>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="episodeForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label class="form-label">Tên Tập <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" formControlName="Name"
+                     (input)="generateSlug()"
+                     [class.is-invalid]="episodeForm.get('Name')?.invalid && episodeForm.get('Name')?.touched">
+              <div class="invalid-feedback">Tên tập phim là bắt buộc</div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label class="form-label">Slug <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" formControlName="Slug"
+                     [class.is-invalid]="episodeForm.get('Slug')?.invalid && episodeForm.get('Slug')?.touched">
+              <div class="invalid-feedback">Slug là bắt buộc</div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label class="form-label">Tên File</label>
+              <input type="text" class="form-control" formControlName="FileName">
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label class="form-label">Số Tập <span class="text-danger">*</span></label>
+              <input type="number" class="form-control" formControlName="EpisodeNumber"
+                     [class.is-invalid]="episodeForm.get('EpisodeNumber')?.invalid && episodeForm.get('EpisodeNumber')?.touched">
+              <div class="invalid-feedback">Số tập là bắt buộc</div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label class="form-label">Server <span class="text-danger">*</span></label>
+              <select class="form-select" formControlName="ServerID"
+                      [class.is-invalid]="episodeForm.get('ServerID')?.invalid && episodeForm.get('ServerID')?.touched">
+                <option *ngFor="let server of servers" [value]="server.ServerID">
+                  {{server.Name}}
+                </option>
+              </select>
+              <div class="invalid-feedback">Server là bắt buộc</div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label class="form-label">Embed URL <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" formControlName="EmbedUrl"
+                     [class.is-invalid]="episodeForm.get('EmbedUrl')?.invalid && episodeForm.get('EmbedUrl')?.touched">
+              <div class="invalid-feedback">Embed URL là bắt buộc</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Error message -->
+        <div class="alert alert-danger" *ngIf="error">{{error}}</div>
+
+        <!-- Buttons -->
+        <div class="text-end">
+          <button type="button" class="btn btn-secondary me-2"
+                  (click)="onCancel()" [disabled]="loading">
+            Hủy
+          </button>
+          <button type="submit" class="btn btn-primary"
+                  [disabled]="!episodeForm.valid || loading">
+            <i class="fas fa-spinner fa-spin me-2" *ngIf="loading"></i>
+            {{isEditMode ? 'Cập nhật' : 'Thêm mới'}}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="card">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Tên Tập</th>
+              <th>Số Tập</th>
+              <th>Server</th>
+              <th>Tên File</th>
+              <th>Embed URL</th>
+              <th>Thao tác</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let episode of episodes; let i = index">
+              <td>{{i + 1}}</td>
+              <td>{{episode.Name}}</td>
+              <td>{{episode.EpisodeNumber}}</td>
+              <td>{{episode.ServerName}}</td>
+              <td>{{episode.FileName}}</td>
+              <td>
+                <a [href]="episode.EmbedUrl" target="_blank" class="text-primary">
+                  <i class="fas fa-external-link-alt me-1"></i>Xem
+                </a>
+              </td>
+              <td>
+                <button class="btn btn-sm btn-info me-2" (click)="onEdit(episode)">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn btn-sm btn-danger" (click)="onDelete(episode.EpisodeID)">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+            <tr *ngIf="episodes.length === 0">
+              <td colspan="7" class="text-center">Không có dữ liệu</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
