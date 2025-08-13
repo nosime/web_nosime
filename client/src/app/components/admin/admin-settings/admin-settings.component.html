@@ -1,0 +1,118 @@
+<div class="admin-settings-container">
+
+  <div class="settings-grid">
+    <!-- Sync Categories Button -->
+    <div class="setting-card">
+      <div class="card-header">
+        <h3>Đồng bộ thể loại</h3>
+        <p>Đồng bộ danh sách thể loại phim từ nguồn dữ liệu</p>
+      </div>
+      <div class="card-actions">
+        <button
+          class="btn btn-primary"
+          [disabled]="isLoading('categories')"
+          (click)="syncCategories()"
+        >
+          <span *ngIf="isLoading('categories')" class="spinner"></span>
+          <i *ngIf="!isLoading('categories')" class="icon-sync"></i>
+          {{ isLoading("categories") ? "Đang xử lý..." : "Đồng bộ thể loại" }}
+        </button>
+        <div *ngIf="getMessage('categories')" class="message success">
+          {{ getMessage("categories") }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Sync Countries Button -->
+    <div class="setting-card">
+      <div class="card-header">
+        <h3>Đồng bộ quốc gia</h3>
+        <p>Đồng bộ danh sách quốc gia sản xuất phim</p>
+      </div>
+      <div class="card-actions">
+        <button
+          class="btn btn-primary"
+          [disabled]="isLoading('countries')"
+          (click)="syncCountries()"
+        >
+          <span *ngIf="isLoading('countries')" class="spinner"></span>
+          <i *ngIf="!isLoading('countries')" class="icon-sync"></i>
+          {{ isLoading("countries") ? "Đang xử lý..." : "Đồng bộ quốc gia" }}
+        </button>
+        <div *ngIf="getMessage('countries')" class="message success">
+          {{ getMessage("countries") }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Sync Movies (24) Button -->
+    <div class="setting-card">
+      <div class="card-header">
+        <h3>Đồng bộ phim (Thường)</h3>
+        <p>Đồng bộ danh sách phim mới (khoảng 24 phim)</p>
+      </div>
+      <div class="card-actions">
+        <button
+          class="btn btn-success"
+          [disabled]="isLoading('movies')"
+          (click)="syncMovies()"
+        >
+          <span *ngIf="isLoading('movies')" class="spinner"></span>
+          <i *ngIf="!isLoading('movies')" class="icon-download"></i>
+          {{ isLoading("movies") ? "Đang đồng bộ..." : "Đồng bộ phim mới" }}
+        </button>
+        <div *ngIf="getMessage('movies')" class="message success">
+          {{ getMessage("movies") }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Parallel Sync Movies (2400) Button -->
+    <div class="setting-card">
+      <div class="card-header">
+        <h3>Đồng bộ phim (Song song)</h3>
+        <p>Đồng bộ lượng lớn phim song song (khoảng 2400 phim)</p>
+      </div>
+      <div class="card-actions">
+        <button
+          class="btn btn-warning"
+          [disabled]="isLoading('parallelMovies')"
+          (click)="parallelSyncMovies()"
+        >
+          <span *ngIf="isLoading('parallelMovies')" class="spinner"></span>
+          <i *ngIf="!isLoading('parallelMovies')" class="icon-parallel"></i>
+          {{
+            isLoading("parallelMovies")
+              ? "Đang đồng bộ..."
+              : "Đồng bộ song song"
+          }}
+        </button>
+        <div *ngIf="getMessage('parallelMovies')" class="message success">
+          {{ getMessage("parallelMovies") }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Clean All Movies Button -->
+    <div class="setting-card danger">
+      <div class="card-header">
+        <h3>Xóa tất cả phim</h3>
+        <p>Xóa toàn bộ dữ liệu phim khỏi cơ sở dữ liệu</p>
+      </div>
+      <div class="card-actions">
+        <button
+          class="btn btn-danger"
+          [disabled]="isLoading('clean')"
+          (click)="cleanAllMovies()"
+        >
+          <span *ngIf="isLoading('clean')" class="spinner"></span>
+          <i *ngIf="!isLoading('clean')" class="icon-trash"></i>
+          {{ isLoading("clean") ? "Đang xóa..." : "Xóa tất cả phim" }}
+        </button>
+        <div *ngIf="getMessage('clean')" class="message success">
+          {{ getMessage("clean") }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

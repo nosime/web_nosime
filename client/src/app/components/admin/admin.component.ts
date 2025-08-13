@@ -5,11 +5,12 @@ import { RouterModule } from '@angular/router';
 import { AdminMainComponent } from './admin-main/admin-main.component';
 import { ServerManagementComponent } from "./server-management/server-management.component";
 import { UserListComponent } from "./user-list/user-list.component";
+import { AdminSettingsComponent } from './admin-settings/admin-settings.component';
 
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [CommonModule, RouterModule, AdminMainComponent, ServerManagementComponent, UserListComponent],
+  imports: [CommonModule, RouterModule, AdminMainComponent, ServerManagementComponent, UserListComponent, AdminSettingsComponent],
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.css']
 })

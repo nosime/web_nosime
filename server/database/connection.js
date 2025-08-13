@@ -41,7 +41,7 @@ class DatabaseConnection {
                 this.connection = null;
             });
 
-            console.log('Database connected successfully');
+            console.log('Database connected successfully by connection.js');
             return this.connection;
 
         } catch (err) {

@@ -40,7 +40,7 @@ class Database {
                     }
                 }).connect();
 
-                console.log('Database connected successfully');
+                console.log('Database connected successfully by database.js');
 
                 // Thêm error handler
                 this.pool.on('error', err => {
@@ -107,5 +107,6 @@ process.on('SIGINT', async () => {
     await database.closePool();
     process.exit(0);
 });
+
 
 module.exports = database;
