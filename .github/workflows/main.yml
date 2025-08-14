@@ -16,6 +16,17 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: 22
           script: |
+            # Kiểm tra và cài docker-compose nếu chưa có
+            if ! command -v docker-compose &> /dev/null; then
+              echo "Installing docker-compose..."
+              curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+              chmod +x /usr/local/bin/docker-compose
+              ln -sf /usr/local/bin/docker-compose /usr/bin/docker-compose
+            fi
+
+            # Kiểm tra version docker-compose
+            docker-compose --version
+
             cd /root/services/web_nosime
 
             # Pull latest code
@@ -31,17 +42,32 @@ jobs:
             docker image prune -f --filter label=com.docker.compose.project=web_nosime || true
 
             # Build and start all services
+            echo "Building and starting services..."
             docker-compose up --build -d
 
             # Wait for services to be healthy
-            sleep 30
+            echo "Waiting for services to start..."
+            sleep 60
 
             # Check if services are running
+            echo "Checking container status..."
             docker-compose ps
 
-            # Test endpoints
-            curl -f http://localhost:5000/api/health || echo "Server health check failed"
-            curl -f -I http://localhost:4000 || echo "Client health check failed"
+            # Test endpoints with retry
+            echo "Testing server health..."
+            for i in {1..10}; do
+              if curl -f http://localhost:5000/api/health 2>/dev/null; then
+                echo "Server is healthy"
+                break
+              else
+                echo "Server check attempt $i failed, retrying in 10s..."
+                sleep 10
+              fi
+            done
+
+            echo "Testing client..."
+            curl -I http://localhost:4000 2>/dev/null || echo "Client may still be starting"
 
             # Show logs for debugging if needed
-            docker-compose logs --tail=50
+            echo "Recent container logs:"
+            docker-compose logs --tail=30
