@@ -1,59 +1,52 @@
-// database/dbInit.js
-const sql = require('mssql');
+// database/dbInit.js - PostgreSQL only for ARM64 branch
 const db = require('./database');
 
 async function initDatabase() {
   try {
     const pool = await db.getConnection();
-    console.log('Connected to SQL Server');
-    
-    const transaction = new sql.Transaction(pool);
-    await transaction.begin();
+    console.log('Connected to PostgreSQL');
     
     try {
-      const result = await transaction.request()
-        .query(`
-          SELECT 
-            'Categories' AS TableName, COUNT(*) AS RecordCount FROM Categories
-          UNION ALL
-            SELECT 'Countries', COUNT(*) FROM Countries
-          UNION ALL
-            SELECT 'Movies', COUNT(*) FROM Movies
-          UNION ALL
-            SELECT 'MovieCategories', COUNT(*) FROM MovieCategories
-          UNION ALL
-            SELECT 'MovieCountries', COUNT(*) FROM MovieCountries
-          UNION ALL
-            SELECT 'Servers', COUNT(*) FROM Servers
-          UNION ALL
-            SELECT 'Episodes', COUNT(*) FROM Episodes
-          UNION ALL
-            SELECT 'Roles', COUNT(*) FROM Roles
-          UNION ALL
-            SELECT 'Permissions', COUNT(*) FROM Permissions
-          UNION ALL
-            SELECT 'RolePermissions', COUNT(*) FROM RolePermissions
-          UNION ALL
-            SELECT 'Users', COUNT(*) FROM Users
-          UNION ALL
-            SELECT 'UserRoles', COUNT(*) FROM UserRoles
-          UNION ALL
-            SELECT 'ViewHistory', COUNT(*) FROM ViewHistory
-          UNION ALL
-            SELECT 'WatchLater', COUNT(*) FROM WatchLater
-          UNION ALL
-            SELECT 'MovieRatings', COUNT(*) FROM MovieRatings
-          ORDER BY TableName;
-        `);
-
-      await transaction.commit();
+      const result = await db.query(`
+        SELECT 
+          'Categories' AS table_name, COUNT(*) AS record_count FROM categories
+        UNION ALL
+          SELECT 'Countries', COUNT(*) FROM countries
+        UNION ALL
+          SELECT 'Movies', COUNT(*) FROM movies
+        UNION ALL
+          SELECT 'MovieCategories', COUNT(*) FROM moviecategories
+        UNION ALL
+          SELECT 'MovieCountries', COUNT(*) FROM moviecountries
+        UNION ALL
+          SELECT 'Servers', COUNT(*) FROM servers
+        UNION ALL
+          SELECT 'Episodes', COUNT(*) FROM episodes
+        UNION ALL
+          SELECT 'Roles', COUNT(*) FROM roles
+        UNION ALL
+          SELECT 'Permissions', COUNT(*) FROM permissions
+        UNION ALL
+          SELECT 'RolePermissions', COUNT(*) FROM rolepermissions
+        UNION ALL
+          SELECT 'Users', COUNT(*) FROM users
+        UNION ALL
+          SELECT 'UserRoles', COUNT(*) FROM userroles
+        UNION ALL
+          SELECT 'ViewHistory', COUNT(*) FROM viewhistory
+        UNION ALL
+          SELECT 'WatchLater', COUNT(*) FROM watchlater
+        UNION ALL
+          SELECT 'MovieRatings', COUNT(*) FROM movieratings
+        ORDER BY table_name;
+      `);
 
       if (result.recordset && result.recordset.length > 0) {
         console.log('\nDatabase Tables Status:');
         console.table(
           result.recordset.map(item => ({
-            'Table Name': item.TableName,
-            'Record Count': item.RecordCount
+            'Table Name': item.table_name,
+            'Record Count': parseInt(item.record_count)
           }))
         );
       } else {
@@ -63,15 +56,14 @@ async function initDatabase() {
       return true;
 
     } catch (err) {
-      await transaction.rollback();
       throw err;
     }
 
   } catch (err) {
-    console.error('SQL Server connection error:', err);
+    console.error('PostgreSQL connection error:', err);
     
-    if (err.code === 'ECONNCLOSED') {
-      console.log('Connection closed, attempting to reconnect...');
+    if (err.code === 'ECONNREFUSED' || err.code === 'ENOTFOUND') {
+      console.log('Connection refused, attempting to reconnect...');
       await db.closePool();
       return initDatabase();
     }
@@ -79,8 +71,8 @@ async function initDatabase() {
     console.error('Error details:', {
       code: err.code,
       message: err.message,
-      state: err.state,
-      class: err.class
+      severity: err.severity,
+      detail: err.detail
     });
 
     return false;

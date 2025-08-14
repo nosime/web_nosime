@@ -1,5 +1,5 @@
-// server/src/database/database.js
-const sql = require('mssql');
+// server/database/database.js - PostgreSQL only for ARM64 branch
+const { Pool } = require('pg');
 const config = require('./config');
 
 class Database {
@@ -10,40 +10,23 @@ class Database {
     }
 
     async getConnection() {
-        if (this.pool?.connected) {
-            return this.pool;
-        }
-
-        // Đóng pool cũ nếu có
         if (this.pool) {
-            await this.closePool();
+            return this.pool;
         }
 
         // Thử kết nối với số lần retry
         for (let i = 0; i < this.connectionRetries; i++) {
             try {
-                this.pool = await new sql.ConnectionPool({
-                    ...config,
-                    options: {
-                        ...config.options,
-                        enableArithAbort: true,
-                        trustServerCertificate: true,
-                        encrypt: false,
-                        connectionTimeout: 30000,
-                    },
-                    pool: {
-                        min: 0,
-                        max: 10,
-                        idleTimeoutMillis: 300000,
-                        acquireTimeoutMillis: 30000,
-                        createRetryIntervalMillis: 2000,
-                    }
-                }).connect();
+                this.pool = new Pool(config);
 
-                console.log('Database connected successfully by database.js');
+                // Test connection
+                const client = await this.pool.connect();
+                client.release();
+
+                console.log('PostgreSQL connected successfully by database.js');
 
                 // Thêm error handler
-                this.pool.on('error', err => {
+                this.pool.on('error', (err) => {
                     console.error('Pool error:', err);
                     this.pool = null;
                 });
@@ -60,25 +43,25 @@ class Database {
 
     async closePool() {
         try {
-            await this.pool?.close();
-            this.pool = null;
+            if (this.pool) {
+                await this.pool.end();
+                this.pool = null;
+            }
         } catch (err) {
             console.error('Error closing pool:', err);
         }
     }
 
-    async query(sqlQuery, params = {}) {
+    async query(sqlQuery, params = []) {
         try {
-            const conn = await this.getConnection();
-            const request = new sql.Request(conn);
-
-            // Add parameters if any
-            Object.entries(params).forEach(([key, value]) => {
-                request.input(key, value);
-            });
-
-            const result = await request.query(sqlQuery);
-            return result;
+            const pool = await this.getConnection();
+            const result = await pool.query(sqlQuery, params);
+            
+            // Return format compatible with mssql
+            return {
+                recordset: result.rows,
+                rowsAffected: [result.rowCount || 0]
+            };
 
         } catch (err) {
             console.error('Query error:', err);
@@ -86,12 +69,33 @@ class Database {
             throw err;
         }
     }
+
     async transaction() {
         try {
             const pool = await this.getConnection();
-            const transaction = new sql.Transaction(pool);
-            await transaction.begin();
-            return transaction;
+            const client = await pool.connect();
+            
+            await client.query('BEGIN');
+            
+            return {
+                request: () => ({
+                    query: async (sql, params = []) => {
+                        const result = await client.query(sql, params);
+                        return {
+                            recordset: result.rows,
+                            rowsAffected: [result.rowCount || 0]
+                        };
+                    }
+                }),
+                commit: async () => {
+                    await client.query('COMMIT');
+                    client.release();
+                },
+                rollback: async () => {
+                    await client.query('ROLLBACK');
+                    client.release();
+                }
+            };
         } catch (err) {
             console.error('Transaction error:', err);
             throw err;
@@ -107,6 +111,5 @@ process.on('SIGINT', async () => {
     await database.closePool();
     process.exit(0);
 });
-
 
 module.exports = database;

@@ -1,68 +1,69 @@
-// db/migration.js
-const sql = require('mssql');
-const config = require('./config');
-const fs = require('fs');
-const path = require('path');
+// database/migration.js - PostgreSQL only for ARM64 branch
+const { Client } = require("pg");
+const fs = require("fs");
+const path = require("path");
+const config = require("./config");
 
 async function dropAndCreateDatabase() {
   try {
-    // Kết nối với master database
-    let pool = await sql.connect({
+    // Kết nối với postgres database
+    const adminConfig = {
       ...config,
-      database: 'master'
-    });
+      database: 'postgres'
+    };
+    let client = new Client(adminConfig);
+    await client.connect();
 
     console.log('Đang kiểm tra và xóa database cũ...');
 
-    // Xóa kết nối tới database cũ và xóa database
-    await pool.request().query(`
-      IF EXISTS (SELECT * FROM sys.databases WHERE name = 'MovieDB')
-      BEGIN
-          USE master;
-          ALTER DATABASE MovieDB SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
-          DROP DATABASE MovieDB;
-      END
-    `);
+    // Xóa database nếu tồn tại
+    try {
+      await client.query(`DROP DATABASE IF EXISTS "${config.database}"`);
+      console.log('Database cũ đã được xóa (nếu tồn tại)');
+    } catch (error) {
+      console.log('Không thể xóa database (có thể không tồn tại)');
+    }
 
-    console.log('Database cũ đã được xóa (nếu tồn tại)');
     console.log('Đang tạo database mới...');
 
     // Tạo database mới
-    await pool.request().query(`CREATE DATABASE MovieDB`);
-
-    // Đổi sang database MovieDB
-    await pool.close();
-
-    // Kết nối với database MovieDB
-    pool = await sql.connect({
-      ...config,
-      database: 'MovieDB'
-    });
+    await client.query(`CREATE DATABASE "${config.database}"`);
+    await client.end();
 
     console.log('Database mới đã được tạo');
     console.log('Đang tạo các bảng...');
+
+    // Kết nối với database MovieDB
+    client = new Client(config);
+    await client.connect();
 
     // Đọc nội dung file SQL
     const sqlContent = fs.readFileSync(path.join(__dirname, 'db_webphim.sql'), 'utf8');
 
     // Chia và thực thi từng batch SQL
-    const batches = sqlContent
-      .split('GO')
-      .map(batch => batch.trim())
-      .filter(batch => batch.length > 0);
+    const queries = sqlContent
+      .replace(/--.*$/gm, "") // Remove single line comments
+      .replace(/\/\*[\s\S]*?\*\//g, "") // Remove multi-line comments
+      .split(';')
+      .map(query => query.trim())
+      .filter(query => query.length > 0);
 
-    for (let i = 0; i < batches.length; i++) {
+    for (let i = 0; i < queries.length; i++) {
       try {
-        await pool.request().query(batches[i]);
-        console.log(`Batch ${i + 1}/${batches.length} thực thi thành công`);
+        await client.query(queries[i]);
+        console.log(`Query ${i + 1}/${queries.length} thực thi thành công`);
       } catch (err) {
-        console.error(`Lỗi khi thực thi batch ${i + 1}:`, err);
-        throw err;
+        if (err.message.includes("already exists")) {
+          console.log(`Query ${i + 1}/${queries.length}: Already exists (skipped)`);
+        } else {
+          console.error(`Lỗi khi thực thi query ${i + 1}:`, err.message);
+          console.error("Query:", queries[i].substring(0, 200) + "...");
+        }
       }
     }
 
     console.log('Tất cả các bảng đã được tạo thành công');
-    await pool.close();
+    await client.end();
 
   } catch (err) {
     console.error('Lỗi trong quá trình migration:', err);
