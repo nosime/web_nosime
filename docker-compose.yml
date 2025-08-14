@@ -1,0 +1,69 @@
+version: '3.8'
+
+services:
+  # SQL Server Database
+  database:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: database
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Nosime44@
+      - MSSQL_PID=Express
+    ports:
+      - "14330:1433"
+    volumes:
+      - db_data:/var/opt/mssql
+    networks:
+      - web-nosime-network
+    healthcheck:
+      test: ["CMD-SHELL", "timeout 1 bash -c '</dev/tcp/localhost/1433' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # Node.js Server
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: server
+    environment:
+      - NODE_ENV=production
+      - PORT=5000
+      - DB_SERVER=database
+      - DB_PORT=1433
+      - DB_USER=sa
+      - DB_PASSWORD=Nosime44@
+      - DB_NAME=MovieDB
+    ports:
+      - "5000:5000"
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - web-nosime-network
+    restart: unless-stopped
+
+  # Angular Client
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: client
+    environment:
+      - API_URL=http://localhost:5000/api
+    ports:
+      - "4000:4000"
+    depends_on:
+      - server
+    networks:
+      - web-nosime-network
+    restart: unless-stopped
+
+volumes:
+  db_data:
+
+networks:
+  web-nosime-network:
+    driver: bridge

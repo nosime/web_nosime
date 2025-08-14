@@ -1,0 +1,47 @@
+name: Web Nosime Deployment
+
+on:
+  push:
+    branches: [product]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy using ssh
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: 22
+          script: |
+            cd /root/services/web_nosime
+
+            # Pull latest code
+            git fetch origin
+            git checkout product
+            git pull origin product
+
+            # Stop and remove existing containers
+            docker-compose down || true
+
+            # Remove only project-specific images to save space
+            docker image rm web_nosime-client web_nosime-server || true
+            docker image prune -f --filter label=com.docker.compose.project=web_nosime || true
+
+            # Build and start all services
+            docker-compose up --build -d
+
+            # Wait for services to be healthy
+            sleep 30
+
+            # Check if services are running
+            docker-compose ps
+
+            # Test endpoints
+            curl -f http://localhost:5000/api/health || echo "Server health check failed"
+            curl -f -I http://localhost:4000 || echo "Client health check failed"
+
+            # Show logs for debugging if needed
+            docker-compose logs --tail=50

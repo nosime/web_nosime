@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../../environments/environment';
 
 export interface SyncResponse {
   success: boolean;
@@ -14,7 +15,7 @@ export interface SyncResponse {
   providedIn: 'root'
 })
 export class SyncService {
-  private apiUrl = 'http://127.0.0.1:5000/api';
+  private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) { }
 
