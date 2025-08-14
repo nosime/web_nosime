@@ -1,22 +1,22 @@
 version: '3.8'
 
 services:
-  # SQL Server Database
+  # PostgreSQL Database (ARM64 compatible)
   database:
-    image: mcr.microsoft.com/mssql/server:2019-latest
+    image: postgres:16-alpine
     container_name: database
     environment:
-      - ACCEPT_EULA=Y
-      - SA_PASSWORD=Nosime44@
-      - MSSQL_PID=Express
+      - POSTGRES_DB=MovieDB
+      - POSTGRES_USER=nosime
+      - POSTGRES_PASSWORD=Nosime44@
     ports:
-      - "14330:1433"
+      - "5432:5432"
     volumes:
-      - db_data:/var/opt/mssql
+      - db_data:/var/lib/postgresql/data
     networks:
       - web-nosime-network
     healthcheck:
-      test: ["CMD-SHELL", "timeout 1 bash -c '</dev/tcp/localhost/1433' || exit 1"]
+      test: ["CMD-SHELL", "pg_isready -U nosime -d MovieDB"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -31,9 +31,10 @@ services:
     environment:
       - NODE_ENV=production
       - PORT=5000
-      - DB_SERVER=database
-      - DB_PORT=1433
-      - DB_USER=sa
+      - DB_TYPE=postgres
+      - DB_HOST=database
+      - DB_PORT=5432
+      - DB_USER=nosime
       - DB_PASSWORD=Nosime44@
       - DB_NAME=MovieDB
     ports:

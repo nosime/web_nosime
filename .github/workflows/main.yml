@@ -1,8 +1,8 @@
-name: Web Nosime Deployment
+name: Web Nosime ARM64 Deployment
 
 on:
   push:
-    branches: [product]
+    branches: [product-arm]
 
 jobs:
   deploy:
@@ -31,8 +31,8 @@ jobs:
 
             # Pull latest code
             git fetch origin
-            git checkout product
-            git pull origin product
+            git checkout product-arm
+            git pull origin product-arm
 
             # Stop and remove existing containers
             docker-compose down || true
