@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 const sql = require("mssql");
 const initDatabase = require("../database/dbInit");
 
@@ -9,10 +10,14 @@ const movieRoutes = require("./routes/movie.routes");
 const searchRoutes = require("./routes/search.routes");
 const syncRoutes = require("./routes/sync.routes");
 const adminRoutes = require("./routes/admin.routes");
+const profileRoutes = require("./routes/profile.routes");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+// Serve static files for uploaded avatars
+app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
 const PORT = process.env.PORT || 5000;
 
@@ -29,6 +34,7 @@ initDatabase()
 
       app.use("/api/auth", authRoutes);
       app.use("/api", actionRoutes, searchRoutes, syncRoutes, movieRoutes);
+      app.use("/api/profile", profileRoutes);
 
       app.use("/api/admin", adminRoutes);
 

@@ -29,13 +29,14 @@ COPY --from=build /app/dist ./dist
 COPY package*.json ./
 
 # Copy environment replacement script
-COPY replace-env.sh ./
+COPY replace-env.sh ./replace-env.sh
 
 # Install only production dependencies
 RUN npm ci --only=production && npm cache clean --force
 
-# Make script executable
-RUN chmod +x replace-env.sh
+# Make script executable and fix line endings
+RUN chmod +x replace-env.sh && \
+    (dos2unix replace-env.sh 2>/dev/null || true)
 
 # Set default API URL environment variable
 ENV API_URL=http://localhost:5000/api

@@ -19,6 +19,7 @@ import { WatchLaterComponent } from './components/watch-later/watch-later.compon
 import { ViewHistoryComponent } from './components/view-history/view-history.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { AdminGuard } from './guards/admin.guard';
+import { ProfileComponent } from './components/profile/profile.component';
 
 
 export const routes: Routes = [
@@ -64,6 +65,12 @@ export const routes: Routes = [
   },
   { path: 'lien-he', component: LienHeComponent ,canActivate: [AuthGuard]},
   { path: 'gioi-thieu', component: GioiThieuComponent },
+  { 
+    path: 'profile', 
+    component: ProfileComponent,
+    canActivate: [AuthGuard],
+    data: { title: 'Thông tin cá nhân' }
+  },
   { path: 'yeu-thich', component: FavoriteMoviesComponent ,canActivate: [AuthGuard]},
   {
     path: 'lich-su',

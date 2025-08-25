@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# Convert line endings if needed (for Windows compatibility)
+dos2unix /app/replace-env.sh 2>/dev/null || true
+
 # Replace API_URL placeholder with environment variable
 if [ ! -z "$API_URL" ]; then
     echo "Replacing API_URL with: $API_URL"

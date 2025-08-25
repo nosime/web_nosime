@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "client": "cd client && ng serve",
-    "server": "cd server && npm run dev", 
+    "server": "cd server && npm run dev",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "install-all": "npm i && cd client && npm i && cd ../server && npm i"
   },
@@ -13,6 +13,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "all": "^0.0.0",
     "concurrently": "^9.1.0"
   }
 }

@@ -2,6 +2,9 @@
 
 echo "Starting server with database migration..."
 
+# Convert line endings if needed (for Windows compatibility)
+dos2unix /entrypoint.sh 2>/dev/null || true
+
 # Wait for database to be ready
 echo "Waiting for database to be ready..."
 sleep 10

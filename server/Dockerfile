@@ -15,14 +15,16 @@ COPY . .
 
 # Copy and make entrypoint script executable
 COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+RUN chmod +x /entrypoint.sh && \
+    (dos2unix /entrypoint.sh 2>/dev/null || true)
 
 # Create non-root user for security
 RUN addgroup -g 1001 -S nodejs && \
     adduser -S nodejs -u 1001
 
-# Change ownership of the app directory
-RUN chown -R nodejs:nodejs /app
+# Change ownership of the app directory and entrypoint
+RUN chown -R nodejs:nodejs /app && \
+    chown nodejs:nodejs /entrypoint.sh
 
 # Switch to non-root user
 USER nodejs
