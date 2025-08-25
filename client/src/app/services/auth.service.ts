@@ -104,6 +104,14 @@ export class AuthService {
     return this.currentUserSubject.value;
   }
 
+  // Method to update current user data
+  public updateCurrentUser(user: User): void {
+    this.currentUserSubject.next(user);
+    if (this.isBrowser) {
+      localStorage.setItem('currentUser', JSON.stringify(user));
+    }
+  }
+
   isLoggedIn(): boolean {
     const token = this.getToken();
     if (!token) return false;
@@ -178,4 +186,27 @@ export class AuthService {
         })
       );
   }
+
+  // Get user profile
+  public getProfile(): Observable<AuthResponse> {
+    return this.http.get<AuthResponse>(`${environment.apiUrl}/profile`);
+  }
+
+  // Update user profile
+  public updateProfile(profileData: {
+    displayName?: string;
+    email?: string;
+  }): Observable<AuthResponse> {
+    return this.http.put<AuthResponse>(`${environment.apiUrl}/profile`, profileData);
+  }
+
+  // Change password
+  public changePassword(passwordData: {
+    currentPassword: string;
+    newPassword: string;
+  }): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${environment.apiUrl}/profile/change-password`, passwordData);
+  }
+
+  
 }
